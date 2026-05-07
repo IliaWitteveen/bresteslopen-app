@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
@@ -79,7 +80,7 @@ function getHashContainerId() {
   return window.location.hash.replace("#container-", "").trim();
 }
 
-export default function ContainersOverviewPage() {
+function ContainersOverviewPageContent() {
   const searchParams = useSearchParams();
   const linkedProjectId = searchParams.get("projectId") || "";
 
@@ -1775,3 +1776,11 @@ const modalItemDateStyle: CSSProperties = {
   fontSize: 13,
   color: "#6b675f",
 };
+
+export default function ContainersOverviewPage() {
+  return (
+    <Suspense fallback={<main style={{ padding: 24 }}>Containers laden...</main>}>
+      <ContainersOverviewPageContent />
+    </Suspense>
+  );
+}
