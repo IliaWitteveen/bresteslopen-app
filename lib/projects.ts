@@ -492,3 +492,12 @@ export async function getProjectById(id: string): Promise<Project | null> {
 
   return data;
 }
+
+export async function deleteProjectById(projectId: string) {
+  const { error } = await supabase
+    .from("projects")
+    .delete()
+    .eq("id", projectId);
+
+  if (error) throw error;
+}

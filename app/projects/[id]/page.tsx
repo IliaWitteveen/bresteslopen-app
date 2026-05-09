@@ -11,7 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { supabase } from "@/lib/supabase";
-import { getProjectById } from "@/lib/projects";
+import { deleteProjectById, getProjectById } from "@/lib/projects";
 import { createTask, getTasksByProjectId, toggleTaskChecked } from "@/lib/tasks";
 import { createContainer, getContainersByProjectId } from "@/lib/containers";
 import { createPhoto, getPhotosByProjectId, uploadPhotoFile } from "@/lib/photos";
@@ -1023,6 +1023,28 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   >
     {showProjectEdit ? "Sluiten" : "Bewerken"}
   </button>
+
+<button
+  type="button"
+  onClick={async () => {
+    const confirmed = window.confirm(
+      "Weet je zeker dat je dit project wilt verwijderen? Dit kan niet ongedaan worden gemaakt."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await deleteProjectById(projectId);
+      window.location.href = "/projecten";
+    } catch (error) {
+      console.error(error);
+      setMessage("Project verwijderen mislukt.");
+    }
+  }}
+  style={deleteProjectButtonStyle}
+>
+  Verwijderen
+</button>
 
   <Link href="/projecten" style={breadcrumbSecondaryStyle}>
     Projecten
@@ -3115,6 +3137,17 @@ const modalCardStyle: CSSProperties = {
   padding: 18,
   border: "1px solid #eadfd4",
   boxShadow: "0 24px 48px rgba(0,0,0,0.16)",
+};
+
+const deleteProjectButtonStyle: CSSProperties = {
+  background: "transparent",
+  color: "#8a8178",
+  border: "1px solid #e2d8cf",
+  borderRadius: 14,
+  padding: "12px 16px",
+  fontSize: 14,
+  fontWeight: 800,
+  cursor: "pointer",
 };
 
 const attachmentModalCardStyle: CSSProperties = {

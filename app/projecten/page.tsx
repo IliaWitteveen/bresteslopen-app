@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { deleteProjectById } from "@/lib/projects";
 import {
   formatDate,
   loadProjectBundlesForCurrentUser,
@@ -121,6 +122,40 @@ export default function ProjectenPage() {
       };
     });
   }, [bundles]);
+
+  const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
+const [deletingProjects, setDeletingProjects] = useState(false);
+
+async function handleDeleteSelectedProjects() {
+  if (selectedProjectIds.length === 0) return;
+
+  const confirmed = window.confirm(
+    `Weet je zeker dat je ${selectedProjectIds.length} project(en) wilt verwijderen?`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    setDeletingProjects(true);
+
+    await Promise.all(
+      selectedProjectIds.map((id) => deleteProjectById(id))
+    );
+
+    setBundles((current) =>
+      current.filter(
+        (bundle) => !selectedProjectIds.includes(bundle.project.id)
+      )
+    );
+
+    setSelectedProjectIds([]);
+  } catch (error) {
+    console.error(error);
+    alert("Projecten verwijderen mislukt.");
+  } finally {
+    setDeletingProjects(false);
+  }
+}
 
   const opdrachtgeverOptions = useMemo(
     () => ["Alles", ...uniqueSorted(projects.map((item) => item.opdrachtgever))],
@@ -338,6 +373,19 @@ export default function ProjectenPage() {
           </Link>
         </section>
 
+        {selectedProjectIds.length > 0 ? (
+  <button
+    type="button"
+    onClick={handleDeleteSelectedProjects}
+    disabled={deletingProjects}
+    style={bulkDeleteButtonStyle}
+  >
+    {deletingProjects
+      ? "Verwijderen..."
+      : `${selectedProjectIds.length} verwijderen`}
+  </button>
+) : null}
+
         <section style={filterPanelStyle}>
           <div style={filterHeaderStyle}>
             <div>
@@ -481,13 +529,44 @@ export default function ProjectenPage() {
           <SummaryCard label="Gem. voortgang" value={`${metrics.avgProgress}%`} accent="#8d6ccf" />
         </section>
 
+        {selectedProjectIds.length > 0 ? (
+  <div style={bulkDeleteBarStyle}>
+    <span>{selectedProjectIds.length} project(en) geselecteerd</span>
+    <button
+      type="button"
+      onClick={handleDeleteSelectedProjects}
+      disabled={deletingProjects}
+      style={bulkDeleteButtonStyle}
+    >
+      {deletingProjects ? "Verwijderen..." : "Geselecteerde projecten verwijderen"}
+    </button>
+  </div>
+) : null}
+
+
         <section style={projectGridStyle}>
           {filteredProjects.length === 0 ? (
             <div style={emptyStateStyle}>Geen projecten gevonden.</div>
           ) : (
             filteredProjects.map((project) => (
               <Link key={project.id} href={`/projects/${project.id}`} style={projectCardLinkStyle}>
-                <article style={projectCardStyle}>
+                <article style={{ ...projectCardStyle, position: "relative" }}>
+  <input
+    type="checkbox"
+    checked={selectedProjectIds.includes(project.id)}
+    onClick={(e) => e.stopPropagation()}
+    onChange={(e) => {
+      e.stopPropagation();
+
+      setSelectedProjectIds((current) =>
+        current.includes(project.id)
+          ? current.filter((id) => id !== project.id)
+          : [...current, project.id]
+      );
+    }}
+    style={projectSelectCheckboxStyle}
+  />
+
                   <div style={projectCardHeaderStyle}>
                     <div>
                       <h2 style={projectTitleStyle}>{project.name}</h2>
@@ -613,6 +692,9 @@ const pageStyle: CSSProperties = {
   padding: 24,
   fontFamily: "Arial, sans-serif",
 };
+
+const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
+const [deletingProjects, setDeletingProjects] = useState(false);
 
 const pageInnerStyle: CSSProperties = {
   maxWidth: 1440,
@@ -916,4 +998,37 @@ const emptyStateStyle: CSSProperties = {
   padding: 18,
   border: "1px solid #eadfd4",
   color: "#6b675f",
+};
+
+const bulkDeleteButtonStyle: CSSProperties = {
+  background: "#fffaf6",
+  color: "#8a4438",
+  border: "1px solid #ead0c8",
+  borderRadius: 14,
+  padding: "12px 16px",
+  fontSize: 14,
+  fontWeight: 900,
+  cursor: "pointer",
+};
+
+const projectSelectCheckboxStyle: CSSProperties = {
+  width: 18,
+  height: 18,
+  accentColor: "#ef6b1f",
+  cursor: "pointer",
+};
+
+
+const bulkDeleteBarStyle: CSSProperties = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: 12,
+  marginBottom: 18,
+  padding: "14px 18px",
+  borderRadius: 18,
+  background: "#fff7f2",
+  border: "1px solid #f0d3c3",
+  color: "#171717",
+  fontWeight: 800,
 };
