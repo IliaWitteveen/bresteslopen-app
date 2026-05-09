@@ -57,6 +57,8 @@ export default function ProjectenPage() {
   const [maxProgress, setMaxProgress] = useState("");
 
   const [sortBy, setSortBy] = useState("openTasksDesc");
+const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
+const [deletingProjects, setDeletingProjects] = useState(false);
 
   useEffect(() => {
     async function init() {
@@ -122,9 +124,6 @@ export default function ProjectenPage() {
       };
     });
   }, [bundles]);
-
-  const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
-const [deletingProjects, setDeletingProjects] = useState(false);
 
 async function handleDeleteSelectedProjects() {
   if (selectedProjectIds.length === 0) return;
@@ -692,9 +691,6 @@ const pageStyle: CSSProperties = {
   padding: 24,
   fontFamily: "Arial, sans-serif",
 };
-
-const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
-const [deletingProjects, setDeletingProjects] = useState(false);
 
 const pageInnerStyle: CSSProperties = {
   maxWidth: 1440,
