@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppHeader from "@/components/app-header";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 
 export const metadata: Metadata = {
   title: "BreSteSlopen App",
@@ -22,6 +23,8 @@ export default function RootLayout({
             <div style={{ marginTop: 20 }}>{children}</div>
           </div>
         </div>
+
+        <MobileBottomNav />
       </body>
     </html>
   );

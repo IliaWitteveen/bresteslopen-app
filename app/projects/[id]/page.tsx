@@ -985,11 +985,257 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
   if (loading) {
     return (
-      <main style={pageStyle}>
+  <>
+    <div className="mobile-project-page">
+      <div className="mobile-app-top">
+        <div className="mobile-app-top-inner">
+          <div className="mobile-brand">
+            <div className="mobile-brand-icon">▥</div>
+            <div className="mobile-brand-text">BreSteSlopen</div>
+          </div>
+
+          <div className="mobile-user-pill">Ilia · admin</div>
+        </div>
+      </div>
+
+      <section className="mobile-project-hero">
+        <Link href="/projecten" className="mobile-back-link">
+          ← Projecten
+        </Link>
+
+        <div className="mobile-project-title-row">
+          <div className="mobile-project-icon">🏢</div>
+
+          <div>
+            <h1 className="mobile-project-title">{project?.name || "Project"}</h1>
+<div className="mobile-project-subtitle">
+  {project?.address || "Geen adres"} {" · "}
+  {project?.opdrachtgever || "Geen opdrachtgever"}
+</div>
+          </div>
+        </div>
+
+        <div className="mobile-action-row">
+          <button
+            type="button"
+            onClick={() => setShowProjectEdit((current) => !current)}
+            className="mobile-primary-button"
+          >
+            {showProjectEdit ? "Sluiten" : "Bewerken"}
+          </button>
+
+          <Link href="/projecten" className="mobile-secondary-button">
+            Projecten
+          </Link>
+
+          <button
+            type="button"
+            onClick={async () => {
+              const confirmed = window.confirm(
+                "Weet je zeker dat je dit project wilt verwijderen? Dit kan niet ongedaan worden gemaakt."
+              );
+
+              if (!confirmed) return;
+
+              try {
+                await deleteProjectById(projectId);
+                window.location.href = "/projecten";
+              } catch (error) {
+                console.error(error);
+                setMessage("Project verwijderen mislukt.");
+              }
+            }}
+            className="mobile-danger-button"
+          >
+            Project verwijderen
+          </button>
+        </div>
+
+        <div className="mobile-kpi-strip">
+          <div className="mobile-kpi">
+            <div className="mobile-kpi-label">Voortgang</div>
+            <div className="mobile-kpi-value">{projectStats.progress}%</div>
+          </div>
+
+          <div className="mobile-kpi">
+            <div className="mobile-kpi-label">Taken</div>
+            <div className="mobile-kpi-value">{projectStats.openTasks}</div>
+          </div>
+
+          <div className="mobile-kpi">
+            <div className="mobile-kpi-label">Containers</div>
+            <div className="mobile-kpi-value">{projectStats.containers}</div>
+          </div>
+
+          <div className="mobile-kpi">
+            <div className="mobile-kpi-label">Foto's</div>
+            <div className="mobile-kpi-value">{projectStats.photos}</div>
+          </div>
+        </div>
+      </section>
+
+      {message ? <div style={messageStyle}>{message}</div> : null}
+
+      <section className="mobile-section">
+        <h2 className="mobile-section-title">Informatie</h2>
+
+        <div className="mobile-info-grid">
+          <MobileInfo label="Adres" value={project?.address || "-"} wide />
+          <MobileInfo label="Opdrachtgever" value={project?.opdrachtgever || "-"} />
+          <MobileInfo label="Status" value={project?.status || "-"} />
+          <MobileInfo label="Soort" value={project?.demolition_type || "-"} />
+          <MobileInfo label="Gebouw" value={project?.building_type || "-"} />
+          <MobileInfo label="m²" value={project?.area_m2 || "-"} />
+          <MobileInfo
+            label="Bouwjaar"
+            value={
+              (project as Project & { bag_build_year?: string | number | null })
+                .bag_build_year || "-"
+            }
+          />
+          <MobileInfo label="Start" value={formatDate(project?.start_date)} />
+          <MobileInfo label="Einde" value={formatDate(project?.end_date)} />
+          <MobileInfo label="Werkdagen" value={project?.work_days || "-"} />
+          <MobileInfo label="Team" value={projectStats.executors} />
+          <MobileInfo
+            label="Notities"
+            value={parsedProjectNotes.overviewNotes || "-"}
+            wide
+          />
+        </div>
+      </section>
+
+      <section className="mobile-section">
+        <h2 className="mobile-section-title">Planning</h2>
+
+        <div className="mobile-planner-days">
+          {plannerDays.slice(0, 14).map((day) => (
+            <button
+              key={day.key}
+              type="button"
+              onClick={() => openPlannerContainerModal(day.key)}
+              className={`mobile-day-chip ${day.isToday ? "today" : ""}`}
+            >
+              <div className="mobile-day-main">
+                {day.shortDay} {day.shortDate}
+              </div>
+              <div className="mobile-day-sub">
+                {day.isToday ? "Vandaag" : day.isActive ? "Werkdag" : "Dag"}
+              </div>
+              <div className="mobile-day-counts">
+                <span>L {day.deliveries.length}</span>
+                <span>O {day.pickups.length}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="mobile-section">
+        <h2 className="mobile-section-title">Taken</h2>
+
+        <div className="mobile-task-list">
+          {[...doTasks, ...dontTasks].slice(0, 12).map((task) => {
+            const checked = isTaskDone(task);
+            const isDont = !isRemoveTask(task);
+
+            return (
+              <button
+                key={task.id}
+                type="button"
+                onClick={() => handleToggleTask(task.id, checked)}
+                className={`mobile-task-row ${isDont ? "dont" : ""} ${
+                  checked ? "done" : ""
+                }`}
+              >
+                <span className="mobile-task-dot" />
+                <span>
+                  <span className="mobile-task-title">{getTaskTitle(task)}</span>
+                  <span className="mobile-task-meta">
+                    {isDont ? "Niet weg" : "Wel weg"} ·{" "}
+                    {getTaskMeta(task) || "Open"}
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+
+          {tasks.length === 0 ? (
+            <div className="mobile-list-card">
+              <div className="mobile-list-meta">Geen taken toegevoegd.</div>
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      <section className="mobile-section">
+        <h2 className="mobile-section-title">Containers</h2>
+
+        <div className="mobile-compact-list">
+          {containers.slice(0, 6).map((container) => (
+            <div key={container.id} className="mobile-list-card">
+              <div className="mobile-list-title">
+                {container.waste_type || "-"} · {container.container_size || "-"}
+              </div>
+              <div className="mobile-list-meta">
+                Levering:{" "}
+                {formatDate(
+                  container.actual_delivery_date || container.planned_delivery_date
+                )}
+                <br />
+                Ophalen:{" "}
+                {formatDate(
+                  container.actual_pickup_date || container.planned_pickup_date
+                )}
+              </div>
+            </div>
+          ))}
+
+          {containers.length === 0 ? (
+            <div className="mobile-list-card">
+              <div className="mobile-list-meta">Geen containers toegevoegd.</div>
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      <section className="mobile-section">
+        <h2 className="mobile-section-title">Foto's & bijlagen</h2>
+
+        <div className="mobile-compact-list">
+          {photos.slice(0, 6).map((photo) => (
+            <button
+              key={photo.id}
+              type="button"
+              onClick={() => setAttachmentPreview(photo)}
+              className="mobile-list-card"
+              style={{ textAlign: "left", width: "100%" }}
+            >
+              <div className="mobile-list-title">{photo.title || "Foto"}</div>
+              <div className="mobile-list-meta">
+                {photo.category || "-"} · {photo.label || "-"}
+              </div>
+            </button>
+          ))}
+
+          {photos.length === 0 ? (
+            <div className="mobile-list-card">
+              <div className="mobile-list-meta">Geen foto's of bijlagen.</div>
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      <div className="mobile-bottom-spacer" />
+    </div>
+
+    <main style={pageStyle} className="desktop-project-page">
+
         <p>Project laden...</p>
-      </main>
-    );
-  }
+          </main>
+  </>
+  );
+}
 
   if (!project) {
     return (
@@ -1860,6 +2106,23 @@ function InfoPill({ label, value }: { label: string; value: string | number }) {
     <div style={infoPillStyle}>
       <div style={infoPillLabelStyle}>{label}</div>
       <div style={infoPillValueStyle}>{value}</div>
+    </div>
+  );
+}
+
+function MobileInfo({
+  label,
+  value,
+  wide,
+}: {
+  label: string;
+  value: string | number;
+  wide?: boolean;
+}) {
+  return (
+    <div className={`mobile-info-card ${wide ? "wide" : ""}`}>
+      <div className="mobile-info-label">{label}</div>
+      <div className="mobile-info-value">{value || "-"}</div>
     </div>
   );
 }
