@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import {
   formatDate,
   getProjectsForDate,
   isProjectActive,
-  isProjectCompleted,
   isProjectPlanned,
   loadProjectBundlesForCurrentUser,
   type ProjectBundle,
@@ -44,43 +43,56 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<Project[]>([]);
   const [bundles, setBundles] = useState<ProjectBundle[]>([]);
-  const [actionModal, setActionModal] = useState<{
-  dateKey: string;
-  dateLabel: string;
-} | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-const [pickupModal, setPickupModal] = useState<{
-  dateKey: string;
-  dateLabel: string;
-} | null>(null);
+  const [actionModal, setActionModal] = useState<{
+    dateKey: string;
+    dateLabel: string;
+  } | null>(null);
+
+  const [pickupModal, setPickupModal] = useState<{
+    dateKey: string;
+    dateLabel: string;
+  } | null>(null);
 
   useEffect(() => {
-  async function init() {
-    try {
-      const overview = await loadProjectBundlesForCurrentUser();
-
-      if (!overview) {
-        window.location.href = "/login";
-        return;
-      }
-
-      setProjects(overview.projects);
-      setBundles(overview.bundles);
-    } catch (error) {
-      console.error("Dashboard load error:", error);
-      window.location.href = "/login";
-    } finally {
-      setLoading(false);
+    function checkMobile() {
+      setIsMobile(window.innerWidth <= 760);
     }
-  }
 
-  init();
-}, []);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    async function init() {
+      try {
+        const overview = await loadProjectBundlesForCurrentUser();
+
+        if (!overview) {
+          window.location.href = "/login";
+          return;
+        }
+
+        setProjects(overview.projects);
+        setBundles(overview.bundles);
+      } catch (error) {
+        console.error("Dashboard load error:", error);
+        window.location.href = "/login";
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    init();
+  }, []);
 
   const today = new Date();
 
   const days = useMemo<PlannerDay[]>(() => {
-    return Array.from({ length: 30 }).map((_, i) => {
+    return Array.from({ length: 14 }).map((_, i) => {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
 
@@ -98,10 +110,10 @@ const [pickupModal, setPickupModal] = useState<{
           const items: PlanningItem[] = [];
 
           const deliveryDate = c.planned_delivery_date || c.actual_delivery_date;
-const pickupDate = c.planned_pickup_date || c.actual_pickup_date;
+          const pickupDate = c.planned_pickup_date || c.actual_pickup_date;
 
-const delivery = deliveryDate ? getDateKey(new Date(deliveryDate)) : "";
-const pickup = pickupDate ? getDateKey(new Date(pickupDate)) : "";
+          const delivery = deliveryDate ? getDateKey(new Date(deliveryDate)) : "";
+          const pickup = pickupDate ? getDateKey(new Date(pickupDate)) : "";
 
           if (delivery === key) {
             items.push({
@@ -129,23 +141,161 @@ const pickup = pickupDate ? getDateKey(new Date(pickupDate)) : "";
         key,
         date,
         isToday: i === 0,
-        label: i === 0 ? "Vandaag" : new Intl.DateTimeFormat("nl-NL", { weekday: "short" }).format(date),
-        shortDate: new Intl.DateTimeFormat("nl-NL", { day: "2-digit", month: "short" }).format(date),
+        label:
+          i === 0
+            ? "Vandaag"
+            : new Intl.DateTimeFormat("nl-NL", { weekday: "short" })
+                .format(date)
+                .replace(".", ""),
+        shortDate: new Intl.DateTimeFormat("nl-NL", {
+          day: "2-digit",
+          month: "short",
+        }).format(date),
         items: [...projectItems, ...containerItems],
       };
     });
   }, [projects, bundles]);
 
-  if (loading) return <p>Laden...</p>;
+  const activeProjects = projects.filter(isProjectActive).length;
+  const plannedProjects = projects.filter(isProjectPlanned).length;
+  const containerCount = bundles.reduce((sum, bundle) => sum + bundle.containers.length, 0);
+  const openTasks = bundles.reduce(
+    (sum, bundle) => sum + bundle.tasks.filter((task) => !task.is_checked).length,
+    0
+  );
+
+  if (loading) {
+    return isMobile ? (
+      <main className="app-dashboard-v3">Laden...</main>
+    ) : (
+      <main style={pageStyle}>Laden...</main>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <main className="app-dashboard-v3">
+        <section className="app-dashboard-v3__planner-card">
+          <div className="app-dashboard-v3__planner-top">
+            <div className="app-dashboard-v3__legend">
+              <Legend color={COLORS.project} label="Project" />
+              <Legend color={COLORS.container} label="Container" />
+              <Legend color={COLORS.pickup} label="Ophalen" />
+            </div>
+
+            <Link href="/agenda" className="app-dashboard-v3__agenda-link">
+              Agenda
+            </Link>
+          </div>
+
+          <div className="app-dashboard-v3__days-scroll">
+            {days.map((day) => (
+              <div
+                key={day.key}
+                className={
+                  day.isToday
+                    ? "app-dashboard-v3__day-card app-dashboard-v3__day-card--today"
+                    : "app-dashboard-v3__day-card"
+                }
+              >
+                <div className="app-dashboard-v3__day-top">
+                  <div className="app-dashboard-v3__day-heading">
+                    <strong>{day.label}</strong>
+                    <span>{day.shortDate}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActionModal({
+                        dateKey: day.key,
+                        dateLabel: day.shortDate,
+                      })
+                    }
+                  >
+                    +
+                  </button>
+                </div>
+
+                <div className="app-dashboard-v3__day-items">
+                  {day.items.length === 0 ? (
+                    <div className="app-dashboard-v3__empty-day">Geen planning</div>
+                  ) : (
+                    day.items.slice(0, 3).map((item) => (
+                      <Link
+                        key={item.id}
+                        href={item.href}
+                        className="app-dashboard-v3__planning-pill"
+                        style={{ background: COLORS[item.type] }}
+                      >
+                        {item.label}
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="app-dashboard-v3__action-grid">
+          <ActionTile href="/nieuw-project" title="Nieuw" icon="+" color="#ef6b1f" />
+          <ActionTile href="/projecten" title="Projecten" icon="▦" color="#df8783" />
+          <ActionTile href="/agenda" title="Agenda" icon="□" color="#94b6ea" />
+          <ActionTile href="/containers" title="Containers" icon="▤" color="#7ea89d" />
+          <ActionTile href="/analyse" title="Analyse" icon="◷" color="#c39aca" />
+          <ActionTile href="/opdrachtgevers" title="Klanten" icon="◎" color="#b7bcc7" />
+        </section>
+
+        <section className="app-dashboard-v3__kpi-grid">
+          <MobileKpi href="/projecten" label="Lopend" value={activeProjects} />
+          <MobileKpi href="/projecten" label="Gepland" value={plannedProjects} />
+          <MobileKpi href="/containers" label="Containers" value={containerCount} />
+          <MobileKpi href="/analyse" label="Taken" value={openTasks} />
+        </section>
+
+        <section className="app-dashboard-v3__projects-card">
+          <div className="app-dashboard-v3__section-head">
+            <h2>Laatste projecten</h2>
+
+            <Link href="/projecten" className="app-dashboard-v3__small-link">
+              Alles
+            </Link>
+          </div>
+
+          <div className="app-dashboard-v3__project-list">
+            {projects.slice(0, 4).map((project) => (
+              <Link
+                key={project.id}
+                href={`/projects/${project.id}`}
+                className="app-dashboard-v3__project-row"
+              >
+                <div>
+                  <strong>{project.name}</strong>
+                  <span>{project.opdrachtgever || "Geen opdrachtgever"}</span>
+                </div>
+
+                <em>
+                  {formatDate(project.start_date)} – {formatDate(project.end_date)}
+                </em>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {renderActionModal(actionModal, setActionModal, setPickupModal)}
+        {renderPickupModal(pickupModal, setPickupModal, projects)}
+      </main>
+    );
+  }
 
   return (
     <main style={pageStyle}>
-      {/* PLANNER */}
       <section style={plannerSection}>
         <div style={legendStyle}>
-          <Legend color={COLORS.project} label="Project" />
-          <Legend color={COLORS.container} label="Container" />
-          <Legend color={COLORS.pickup} label="Ophalen" />
+          <DesktopLegend color={COLORS.project} label="Project" />
+          <DesktopLegend color={COLORS.container} label="Container" />
+          <DesktopLegend color={COLORS.pickup} label="Ophalen" />
         </div>
 
         <div style={scrollRow}>
@@ -158,113 +308,24 @@ const pickup = pickupDate ? getDateKey(new Date(pickupDate)) : "";
               }}
             >
               <div style={dayTop}>
-  <div style={dayHeaderCompact}>
-    <span>{day.label}</span>
-    <span style={dayDateSmall}>{day.shortDate}</span>
-  </div>
+                <div style={dayHeaderCompact}>
+                  <span>{day.label}</span>
+                  <span style={dayDateSmall}>{day.shortDate}</span>
+                </div>
 
-  <button
-  type="button"
-  onClick={() => {
-    setActionModal({
-      dateKey: day.key,
-      dateLabel: day.shortDate,
-    });
-  }}
-  style={plusBtn}
->
-  +
-</button>
-</div>
-
-{actionModal ? (
-  <div style={modalBackdrop} onClick={() => setActionModal(null)}>
-    <div style={modalCard} onClick={(e) => e.stopPropagation()}>
-      <h2 style={{ marginTop: 0 }}>Nieuwe actie</h2>
-      <p style={{ color: "#6b675f" }}>{actionModal.dateLabel}</p>
-
-      <div style={{ display: "grid", gap: 12 }}>
-        <button
-  type="button"
-  onClick={() => {
-    setPickupModal(actionModal);
-    setActionModal(null);
-  }}
-  style={modalButton}
->
-  Ophalen
-</button>
-
-        <Link href="/containers" style={modalButton}>
-          Container
-        </Link>
-
-        <Link href="/agenda" style={modalButton}>
-          Ophalen
-        </Link>
-
-        <button
-          type="button"
-          onClick={() => setActionModal(null)}
-          style={modalCloseButton}
-        >
-          Sluiten
-        </button>
-      </div>
-    </div>
-  </div>
-) : null}
-
-{pickupModal ? (
-  <div style={modalBackdrop} onClick={() => setPickupModal(null)}>
-    <div style={pickupModalCard} onClick={(e) => e.stopPropagation()}>
-      <h2 style={{ marginTop: 0 }}>Ophaalactie plannen</h2>
-      <p style={{ color: "#6b675f", marginTop: -6 }}>{pickupModal.dateLabel}</p>
-
-      <div style={pickupFormGrid}>
-        <select style={inputStyle}>
-          <option value="">Kies project</option>
-          {projects.map((project) => (
-            <option key={project.id} value={project.id}>
-              {project.name}
-            </option>
-          ))}
-        </select>
-
-        <input style={inputStyle} placeholder="Wat moet opgehaald worden?" />
-
-        <input style={inputStyle} placeholder="Waar ophalen?" />
-
-        <input style={inputStyle} placeholder="Bedrijf / contactpersoon" />
-
-        <select style={inputStyle}>
-          <option>Huur</option>
-          <option>Kantoor</option>
-          <option>Kopen</option>
-          <option>Retour leverancier</option>
-          <option>Overig</option>
-        </select>
-
-        <textarea style={textareaStyle} placeholder="Extra notitie" />
-
-        <button
-          type="button"
-          style={modalButton}
-          onClick={() => {
-            alert("Ophaalactie opslaan komt in de volgende stap.");
-            setPickupModal(null);
-          }}
-        >
-          Ophaalactie opslaan
-        </button>
-
-        <button type="button" style={modalCloseButton} onClick={() => setPickupModal(null)}>
-          Sluiten
-        </button>
-      </div>
-    </div>
-  </div>
-) : null}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActionModal({
+                      dateKey: day.key,
+                      dateLabel: day.shortDate,
+                    });
+                  }}
+                  style={plusBtn}
+                >
+                  +
+                </button>
+              </div>
 
               <div style={{ marginTop: 10 }}>
                 {day.items.length === 0 && <div style={empty}>Geen planning</div>}
@@ -287,7 +348,6 @@ const pickup = pickupDate ? getDateKey(new Date(pickupDate)) : "";
         </div>
       </section>
 
-      {/* KNOPPEN */}
       <section style={buttonWrap}>
         <div style={buttonGrid}>
           <DashboardTile title="Nieuw Project" href="/nieuw-project" color="#ef6b1f" />
@@ -298,19 +358,20 @@ const pickup = pickupDate ? getDateKey(new Date(pickupDate)) : "";
           <DashboardTile title="Opdrachtgevers" href="/opdrachtgevers" color="#b7bcc7" />
         </div>
       </section>
-            {/* SAMENVATTING */}
+
       <section style={summaryGrid}>
-        <Kpi href="/projecten" label="Lopende projecten" value={projects.filter(isProjectActive).length} />
-        <Kpi href="/projecten" label="Geplande projecten" value={projects.filter(isProjectPlanned).length} />
-        <Kpi href="/containers" label="Containers" value={bundles.reduce((s, b) => s + b.containers.length, 0)} />
-        <Kpi href="/analyse" label="Analyse / taken" value={bundles.reduce((s, b) => s + b.tasks.filter((t) => !t.is_checked).length, 0)} />
+        <DesktopKpi href="/projecten" label="Lopende projecten" value={activeProjects} />
+        <DesktopKpi href="/projecten" label="Geplande projecten" value={plannedProjects} />
+        <DesktopKpi href="/containers" label="Containers" value={containerCount} />
+        <DesktopKpi href="/analyse" label="Analyse / taken" value={openTasks} />
       </section>
 
-      {/* LAATSTE PROJECTEN */}
       <section style={projectsSection}>
         <div style={sectionHead}>
           <h2 style={sectionTitle}>Laatste projecten</h2>
-          <Link href="/projecten" style={orangeLink}>Alles bekijken</Link>
+          <Link href="/projecten" style={orangeLink}>
+            Alles bekijken
+          </Link>
         </div>
 
         <div style={projectGrid}>
@@ -318,16 +379,166 @@ const pickup = pickupDate ? getDateKey(new Date(pickupDate)) : "";
             <Link key={project.id} href={`/projects/${project.id}`} style={projectMiniCard}>
               <strong>{project.name}</strong>
               <span>{project.opdrachtgever || "Geen opdrachtgever"}</span>
-              <span>{formatDate(project.start_date)} – {formatDate(project.end_date)}</span>
+              <span>
+                {formatDate(project.start_date)} – {formatDate(project.end_date)}
+              </span>
             </Link>
           ))}
         </div>
       </section>
+
+      {renderActionModal(actionModal, setActionModal, setPickupModal)}
+      {renderPickupModal(pickupModal, setPickupModal, projects)}
     </main>
   );
 }
 
+function renderActionModal(
+  actionModal: { dateKey: string; dateLabel: string } | null,
+  setActionModal: (value: { dateKey: string; dateLabel: string } | null) => void,
+  setPickupModal: (value: { dateKey: string; dateLabel: string } | null) => void
+) {
+  if (!actionModal) return null;
+
+  return (
+    <div className="app-dashboard-v3__modal-backdrop" onClick={() => setActionModal(null)}>
+      <div className="app-dashboard-v3__modal" onClick={(e) => e.stopPropagation()}>
+        <h2>Nieuwe actie</h2>
+        <p>{actionModal.dateLabel}</p>
+
+        <div className="app-dashboard-v3__modal-grid">
+          <button
+            type="button"
+            onClick={() => {
+              setPickupModal(actionModal);
+              setActionModal(null);
+            }}
+          >
+            Ophaalactie
+          </button>
+
+          <Link href="/containers">Container</Link>
+          <Link href="/agenda">Agenda openen</Link>
+
+          <button
+            type="button"
+            className="app-dashboard-v3__modal-secondary"
+            onClick={() => setActionModal(null)}
+          >
+            Sluiten
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function renderPickupModal(
+  pickupModal: { dateKey: string; dateLabel: string } | null,
+  setPickupModal: (value: { dateKey: string; dateLabel: string } | null) => void,
+  projects: Project[]
+) {
+  if (!pickupModal) return null;
+
+  return (
+    <div className="app-dashboard-v3__modal-backdrop" onClick={() => setPickupModal(null)}>
+      <div className="app-dashboard-v3__modal" onClick={(e) => e.stopPropagation()}>
+        <h2>Ophaalactie plannen</h2>
+        <p>{pickupModal.dateLabel}</p>
+
+        <div className="app-dashboard-v3__form-grid">
+          <select>
+            <option value="">Kies project</option>
+            {projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
+              </option>
+            ))}
+          </select>
+
+          <input placeholder="Wat moet opgehaald worden?" />
+          <input placeholder="Waar ophalen?" />
+          <input placeholder="Bedrijf / contactpersoon" />
+
+          <select>
+            <option>Huur</option>
+            <option>Kantoor</option>
+            <option>Kopen</option>
+            <option>Retour leverancier</option>
+            <option>Overig</option>
+          </select>
+
+          <textarea placeholder="Extra notitie" />
+
+          <button
+            type="button"
+            onClick={() => {
+              alert("Ophaalactie opslaan komt in de volgende stap.");
+              setPickupModal(null);
+            }}
+          >
+            Ophaalactie opslaan
+          </button>
+
+          <button
+            type="button"
+            className="app-dashboard-v3__modal-secondary"
+            onClick={() => setPickupModal(null)}
+          >
+            Sluiten
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Legend({ color, label }: { color: string; label: string }) {
+  return (
+    <div className="app-dashboard-v3__legend-item">
+      <span style={{ background: color }} />
+      <strong>{label}</strong>
+    </div>
+  );
+}
+
+function ActionTile({
+  href,
+  title,
+  icon,
+  color,
+}: {
+  href: string;
+  title: string;
+  icon: string;
+  color: string;
+}) {
+  return (
+    <Link href={href} className="app-dashboard-v3__action-tile" style={{ background: color }}>
+      <span>{icon}</span>
+      <strong>{title}</strong>
+    </Link>
+  );
+}
+
+function MobileKpi({
+  href,
+  label,
+  value,
+}: {
+  href: string;
+  label: string;
+  value: number;
+}) {
+  return (
+    <Link href={href} className="app-dashboard-v3__kpi">
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </Link>
+  );
+}
+
+function DesktopLegend({ color, label }: { color: string; label: string }) {
   return (
     <div style={legendItem}>
       <span style={{ ...legendDot, background: color }} />
@@ -336,7 +547,7 @@ function Legend({ color, label }: { color: string; label: string }) {
   );
 }
 
-function Kpi({ href, label, value }: { href: string; label: string; value: number }) {
+function DesktopKpi({ href, label, value }: { href: string; label: string; value: number }) {
   return (
     <Link href={href} style={kpiCard}>
       <span style={kpiLabel}>{label}</span>
@@ -393,10 +604,10 @@ const scrollRow: CSSProperties = {
 };
 
 const dayCard: CSSProperties = {
-  minHeight: 170, // was ~205 → compacter
+  minHeight: 170,
   background: "#fffdfb",
   borderRadius: 20,
-  padding: 12, // was 14
+  padding: 12,
   boxShadow: "0 8px 16px rgba(0,0,0,0.035)",
 };
 
@@ -420,10 +631,6 @@ const plusBtn: CSSProperties = {
   fontSize: 22,
   fontWeight: 900,
   cursor: "pointer",
-};
-
-const dayDate: CSSProperties = {
-  display: "none", // we gebruiken deze niet meer
 };
 
 const empty: CSSProperties = {
@@ -560,74 +767,3 @@ const dayDateSmall: CSSProperties = {
   fontWeight: 800,
   color: "#171717",
 };
-
-const modalBackdrop: CSSProperties = {
-  position: "fixed",
-  inset: 0,
-  background: "rgba(23,23,23,0.35)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  zIndex: 9999,
-};
-
-const modalCard: CSSProperties = {
-  width: "100%",
-  maxWidth: 360,
-  background: "#ffffff",
-  borderRadius: 24,
-  padding: 24,
-  boxShadow: "0 24px 60px rgba(0,0,0,0.22)",
-};
-
-const modalButton: CSSProperties = {
-  background: "#ef6b1f",
-  color: "#ffffff",
-  textDecoration: "none",
-  borderRadius: 14,
-  padding: "14px 16px",
-  fontWeight: 900,
-};
-
-const modalCloseButton: CSSProperties = {
-  background: "#ffffff",
-  border: "1px solid #d8d0c7",
-  borderRadius: 14,
-  padding: "12px 16px",
-  fontWeight: 800,
-  cursor: "pointer",
-};
-
-const inputStyle: CSSProperties = {
-  width: "100%",
-  height: 54,
-  padding: "0 15px",
-  borderRadius: 16,
-  border: "1px solid #d9cfc4",
-  background: "#ffffff",
-  color: "#171717",
-  fontSize: 15,
-};
-
-const pickupModalCard: CSSProperties = {
-  width: "100%",
-  maxWidth: 560,
-  background: "#ffffff",
-  borderRadius: 24,
-  padding: 24,
-  boxShadow: "0 24px 60px rgba(0,0,0,0.22)",
-};
-
-const pickupFormGrid: CSSProperties = {
-  display: "grid",
-  gap: 12,
-  marginTop: 18,
-};
-
-const textareaStyle: CSSProperties = {
-  ...inputStyle,
-  minHeight: 110,
-  paddingTop: 14,
-  resize: "vertical",
-};
-
