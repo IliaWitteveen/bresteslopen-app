@@ -4009,3 +4009,476 @@ a {
   font-weight: 900;
   cursor: pointer;
 }
+
+/* =========================================================
+   FINAL FIX - MOBILE DASHBOARD WIDTH / COMPACT LAYOUT
+   Alleen mobiele app dashboard. Desktop blijft ongemoeid.
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .app-mobile-dashboard-v3,
+  .app-mobile-dashboard-v3__page,
+  .app-dashboard-v2,
+  .mobile-dashboard-page {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    padding: 10px 10px 104px !important;
+  }
+
+  .app-mobile-dashboard-v3 *,
+  .app-dashboard-v2 *,
+  .mobile-dashboard-page * {
+    box-sizing: border-box !important;
+  }
+
+  /* PLANNING KAART */
+  .app-mobile-dashboard-v3__planner-card,
+  .app-mobile-dashboard-v3__planning-card,
+  .app-dashboard-v2__today,
+  .mobile-dashboard-planner-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    padding: 14px !important;
+    margin: 0 0 14px !important;
+    background: #fffaf6 !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 10px 24px rgba(72, 52, 38, 0.055) !important;
+  }
+
+  /* kleur-uitleg weg */
+  .app-mobile-dashboard-v3__legend,
+  .app-dashboard-v2__planner-legend,
+  .mobile-dashboard-legend {
+    display: none !important;
+  }
+
+  /* Agenda knop boven planning weg */
+  .app-mobile-dashboard-v3__agenda-button,
+  .app-mobile-dashboard-v3__head-link,
+  .app-dashboard-v2__head-link,
+  .mobile-dashboard-small-link {
+    display: none !important;
+  }
+
+  .app-mobile-dashboard-v3__section-head,
+  .app-dashboard-v2__today-head,
+  .mobile-dashboard-section-head {
+    display: none !important;
+  }
+
+  /* Dagen: precies 2 dagen naast elkaar zichtbaar */
+  .app-mobile-dashboard-v3__days-scroll,
+  .app-dashboard-v2__days-scroll,
+  .mobile-dashboard-days-scroll {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: calc((100% - 10px) / 2) !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 0 0 4px !important;
+    scroll-snap-type: x mandatory !important;
+  }
+
+  .app-mobile-dashboard-v3__day,
+  .app-mobile-dashboard-v3__day-card,
+  .app-dashboard-v2__day,
+  .mobile-dashboard-day-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 132px !important;
+    max-height: 132px !important;
+    padding: 10px !important;
+    border-radius: 17px !important;
+    background: #fffdfb !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: none !important;
+    scroll-snap-align: start !important;
+  }
+
+  .app-mobile-dashboard-v3__day--today,
+  .app-dashboard-v2__day--today,
+  .mobile-dashboard-day-card--today {
+    border: 2px solid #ef6b1f !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head,
+  .app-dashboard-v2__day-head,
+  .mobile-dashboard-day-top {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head div,
+  .app-dashboard-v2__day-head div,
+  .mobile-dashboard-day-top div {
+    display: grid !important;
+    gap: 2px !important;
+    min-width: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong,
+  .app-dashboard-v2__day-head strong,
+  .mobile-dashboard-day-top strong {
+    color: #171717 !important;
+    font-size: 14px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span,
+  .app-dashboard-v2__day-head span,
+  .mobile-dashboard-day-top span {
+    color: #6b675f !important;
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head button,
+  .app-dashboard-v2__day-head button,
+  .mobile-dashboard-day-top button {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    border-radius: 999px !important;
+    border: 1px solid #9de2b4 !important;
+    background: #e9fbef !important;
+    color: #15803d !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    line-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-items,
+  .app-dashboard-v2__day-items,
+  .mobile-dashboard-day-items {
+    display: grid !important;
+    gap: 6px !important;
+    margin-top: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill,
+  .app-dashboard-v2__planning-pill,
+  .mobile-dashboard-planning-pill {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 31px !important;
+    border-radius: 12px !important;
+    padding: 0 8px !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    line-height: 31px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__empty,
+  .app-dashboard-v2__empty,
+  .mobile-dashboard-empty-day {
+    height: 31px !important;
+    border-radius: 12px !important;
+    padding: 0 8px !important;
+    background: #f2ede8 !important;
+    color: #7b746c !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 31px !important;
+    text-align: center !important;
+  }
+
+  /* 6 KNOPPEN: terug compact en volledig gekleurd */
+  .app-mobile-dashboard-v3__quick,
+  .app-dashboard-v2__quick,
+  .mobile-dashboard-action-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    border-radius: 22px !important;
+    background: #fffaf6 !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 10px 24px rgba(72, 52, 38, 0.055) !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile,
+  .app-dashboard-v2__quick-tile,
+  .mobile-dashboard-action-tile {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 102px !important;
+    border-radius: 18px !important;
+    padding: 12px !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    box-shadow: 0 10px 20px rgba(72, 52, 38, 0.11) !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span,
+  .app-dashboard-v2__quick-tile span,
+  .mobile-dashboard-action-tile span {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 13px !important;
+    background: rgba(255,255,255,0.22) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong,
+  .app-dashboard-v2__quick-tile strong,
+  .mobile-dashboard-action-tile strong {
+    color: #ffffff !important;
+    font-size: 14px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile em,
+  .app-dashboard-v2__quick-tile em,
+  .mobile-dashboard-action-tile em {
+    display: none !important;
+  }
+
+  /* SAMENVATTING: 4 tegels naast elkaar */
+  .app-mobile-dashboard-v3__summary,
+  .app-mobile-dashboard-v3__kpi-grid,
+  .app-dashboard-v2__stats,
+  .mobile-dashboard-kpi-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 0 14px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi,
+  .app-dashboard-v2__kpi,
+  .mobile-dashboard-kpi {
+    min-width: 0 !important;
+    min-height: 70px !important;
+    border-radius: 16px !important;
+    padding: 10px 8px !important;
+    background: #fffaf6 !important;
+    border: 1px solid #eadfd4 !important;
+    color: #171717 !important;
+    text-decoration: none !important;
+    box-shadow: 0 8px 16px rgba(72, 52, 38, 0.045) !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi span,
+  .app-dashboard-v2__kpi span,
+  .mobile-dashboard-kpi span {
+    display: block !important;
+    color: #6b675f !important;
+    font-size: 10px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi strong,
+  .app-dashboard-v2__kpi strong,
+  .mobile-dashboard-kpi strong {
+    display: block !important;
+    margin-top: 6px !important;
+    color: #ef6b1f !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+  }
+
+  /* SLIMME SECTIE: compacte rijtjes */
+  .app-mobile-dashboard-v3__smart,
+  .app-mobile-dashboard-v3__focus,
+  .app-dashboard-v2__smart {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    background: #fffaf6 !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 10px 24px rgba(72, 52, 38, 0.055) !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row,
+  .app-mobile-dashboard-v3__focus-row {
+    min-height: 58px !important;
+    border-radius: 15px !important;
+    padding: 10px 12px !important;
+    background: #ffffff !important;
+    border: 1px solid #eadfd4 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong,
+  .app-mobile-dashboard-v3__focus-row strong {
+    font-size: 14px !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row span,
+  .app-mobile-dashboard-v3__focus-row span {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    color: #6b675f !important;
+    font-weight: 800 !important;
+  }
+
+  /* LAATSTE PROJECTEN */
+  .app-mobile-dashboard-v3__projects,
+  .app-dashboard-v2__projects,
+  .mobile-dashboard-projects-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    background: #fffaf6 !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 10px 24px rgba(72, 52, 38, 0.055) !important;
+  }
+
+  .app-mobile-dashboard-v3__projects h2,
+  .app-dashboard-v2__projects h2,
+  .mobile-dashboard-projects-card h2,
+  .app-mobile-dashboard-v3__section-row,
+  .app-dashboard-v2__section-row {
+    display: none !important;
+  }
+
+  .app-mobile-dashboard-v3__project-list,
+  .app-dashboard-v2__project-list,
+  .mobile-dashboard-project-list {
+    display: grid !important;
+    gap: 8px !important;
+    max-height: 310px !important;
+    overflow-y: auto !important;
+    padding-right: 2px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row,
+  .app-dashboard-v2__project-row,
+  .mobile-dashboard-project-row {
+    width: 100% !important;
+    min-height: 58px !important;
+    border-radius: 15px !important;
+    padding: 10px 12px !important;
+    background: #ffffff !important;
+    border: 1px solid #eadfd4 !important;
+    color: #171717 !important;
+    text-decoration: none !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong,
+  .app-dashboard-v2__project-row strong,
+  .mobile-dashboard-project-row strong {
+    display: block !important;
+    font-size: 15px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span,
+  .app-dashboard-v2__project-row span,
+  .mobile-dashboard-project-row span {
+    display: block !important;
+    margin-top: 3px !important;
+    font-size: 12px !important;
+    color: #6b675f !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row em,
+  .app-dashboard-v2__project-row em,
+  .mobile-dashboard-project-row em {
+    max-width: 96px !important;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+    color: #6b675f !important;
+    font-style: normal !important;
+    font-weight: 800 !important;
+    text-align: right !important;
+  }
+
+  /* MODALS */
+  .app-mobile-dashboard-v3__modal-backdrop,
+  .app-dashboard-v2__modal-backdrop,
+  .mobile-dashboard-modal-backdrop {
+    z-index: 9999 !important;
+    padding: 14px !important;
+    align-items: flex-end !important;
+  }
+
+  .app-mobile-dashboard-v3__modal,
+  .app-dashboard-v2__modal,
+  .mobile-dashboard-modal {
+    width: 100% !important;
+    max-width: 420px !important;
+    max-height: 78vh !important;
+    overflow-y: auto !important;
+    border-radius: 24px 24px 0 0 !important;
+    padding: 18px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal h2,
+  .app-dashboard-v2__modal h2,
+  .mobile-dashboard-modal h2 {
+    font-size: 24px !important;
+    line-height: 1.05 !important;
+  }
+}
