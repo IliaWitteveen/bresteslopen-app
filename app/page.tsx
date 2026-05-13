@@ -55,6 +55,169 @@ export default function DashboardPage() {
     dateLabel: string;
   } | null>(null);
 
+    const [detailSheet, setDetailSheet] = useState<{
+    title: string;
+    subtitle?: string;
+    items: { label: string; value?: string; href?: string }[];
+  } | null>(null);
+
+    const today = useMemo(() => new Date(), []);
+
+  const recentProjects = useMemo(() => {
+    return [...projects].sort((a, b) => {
+      const aTime = new Date(a.start_date || a.end_date || 0).getTime();
+      const bTime = new Date(b.start_date || b.end_date || 0).getTime();
+      return bTime - aTime;
+    });
+  }, [projects]);
+
+  const todayKey = getDateKey(today);
+
+  const deliveriesToday = bundles.reduce((sum, bundle) => {
+    return (
+      sum +
+      bundle.containers.filter((container) => {
+        const date = container.planned_delivery_date || container.actual_delivery_date;
+        return date ? getDateKey(new Date(date)) === todayKey : false;
+      }).length
+    );
+  }, 0);
+
+  const pickupsToday = bundles.reduce((sum, bundle) => {
+    return (
+      sum +
+      bundle.containers.filter((container) => {
+        const date = container.planned_pickup_date || container.actual_pickup_date;
+        return date ? getDateKey(new Date(date)) === todayKey : false;
+      }).length
+    );
+  }, 0);
+
+  const startingThisWeek = projects.filter((project) => {
+    if (!project.start_date) return false;
+    const start = new Date(project.start_date).getTime();
+    const now = new Date(todayKey).getTime();
+    const weekLater = now + 7 * 24 * 60 * 60 * 1000;
+    return start >= now && start <= weekLater;
+  }).length;
+
+  function openSummarySheet(type: "active" | "planned" | "containers" | "tasks") {
+    if (type === "active") {
+      setDetailSheet({
+        title: "Lopende projecten",
+        subtitle: `${activeProjects} actief`,
+        items: projects
+          .filter(isProjectActive)
+          .slice(0, 12)
+          .map((project) => ({
+            label: project.name,
+            value: `${formatDate(project.start_date)} – ${formatDate(project.end_date)}`,
+            href: `/projects/${project.id}`,
+          })),
+      });
+      return;
+    }
+
+    if (type === "planned") {
+      setDetailSheet({
+        title: "Geplande projecten",
+        subtitle: `${plannedProjects} gepland`,
+        items: projects
+          .filter(isProjectPlanned)
+          .slice(0, 12)
+          .map((project) => ({
+            label: project.name,
+            value: `${formatDate(project.start_date)} – ${formatDate(project.end_date)}`,
+            href: `/projects/${project.id}`,
+          })),
+      });
+      return;
+    }
+
+    if (type === "containers") {
+      setDetailSheet({
+        title: "Containers",
+        subtitle: `${containerCount} totaal`,
+        items: bundles
+          .flatMap((bundle) =>
+            bundle.containers.map((container) => ({
+              label: `Container ${container.container_size}`,
+              value:
+                container.planned_delivery_date || container.actual_delivery_date
+                  ? formatDate(container.planned_delivery_date || container.actual_delivery_date)
+                  : "Geen datum",
+              href: "/containers",
+            }))
+          )
+          .slice(0, 16),
+      });
+      return;
+    }
+
+    setDetailSheet({
+      title: "Analyse / taken",
+      subtitle: `${openTasks} open taken`,
+      items: [
+        { label: "Analyse openen", value: "Overzicht", href: "/analyse" },
+        { label: "Open taken", value: String(openTasks), href: "/analyse" },
+        { label: "Geplande projecten", value: String(plannedProjects), href: "/projecten" },
+        { label: "Containers", value: String(containerCount), href: "/containers" },
+      ],
+    });
+  }
+
+  function openSmartSheet(type: "today" | "pickup" | "week") {
+    if (type === "today") {
+      setDetailSheet({
+        title: "Vandaag op planning",
+        subtitle: `${planningTodayCount} items`,
+        items: (days[0]?.items || []).map((item) => ({
+          label: item.label,
+          value:
+            item.type === "project"
+              ? "Project"
+              : item.type === "container"
+              ? "Container"
+              : "Ophalen",
+          href: item.href,
+        })),
+      });
+      return;
+    }
+
+    if (type === "pickup") {
+      setDetailSheet({
+        title: "Transport vandaag",
+        subtitle: `${deliveriesToday + pickupsToday} bewegingen`,
+        items: [
+          { label: "Te leveren containers", value: String(deliveriesToday), href: "/containers" },
+          { label: "Op te halen containers", value: String(pickupsToday), href: "/containers" },
+          { label: "Agenda openen", value: "Planning", href: "/agenda" },
+        ],
+      });
+      return;
+    }
+
+    setDetailSheet({
+      title: "Komende 7 dagen",
+      subtitle: "Vooruit kijken",
+      items: [
+        { label: "Projecten die starten", value: String(startingThisWeek), href: "/projecten" },
+        { label: "Geplande projecten", value: String(plannedProjects), href: "/projecten" },
+        { label: "Open taken", value: String(openTasks), href: "/analyse" },
+      ],
+    });
+  }
+
+  const quickTiles = [
+    { href: "/nieuw-project", title: "Nieuw Project", icon: "+", color: "#ef6b1f" },
+    { href: "/agenda", title: "Agenda", icon: "◫", color: "#94b6ea" },
+    { href: "/projecten", title: "Projecten", icon: "▦", color: "#df8783" },
+    { href: "/containers", title: "Containers", icon: "▤", color: "#7ea89d" },
+    { href: "/analyse", title: "Analyse", icon: "◷", color: "#c39aca" },
+    { href: "/opdrachtgevers", title: "Opdrachtgevers", icon: "◎", color: "#b7bcc7" },
+  ];
+
   useEffect(() => {
     function checkMobile() {
       setIsMobile(window.innerWidth <= 760);
@@ -88,8 +251,6 @@ export default function DashboardPage() {
 
     init();
   }, []);
-
-  const today = new Date();
 
   const days = useMemo<PlannerDay[]>(() => {
     return Array.from({ length: 14 }).map((_, i) => {
@@ -156,6 +317,7 @@ export default function DashboardPage() {
     });
   }, [projects, bundles]);
 
+  const planningTodayCount = days[0]?.items.length || 0;
   const activeProjects = projects.filter(isProjectActive).length;
   const plannedProjects = projects.filter(isProjectPlanned).length;
   const containerCount = bundles.reduce((sum, bundle) => sum + bundle.containers.length, 0);
@@ -173,120 +335,312 @@ export default function DashboardPage() {
   }
 
   if (isMobile) {
-    return (
-      <main className="app-dashboard-v3">
-        <section className="app-dashboard-v3__planner-card">
-          <div className="app-dashboard-v3__planner-top">
-            <div className="app-dashboard-v3__legend">
-              <Legend color={COLORS.project} label="Project" />
-              <Legend color={COLORS.container} label="Container" />
-              <Legend color={COLORS.pickup} label="Ophalen" />
+      return (
+    <main className="app-mobile-dashboard-v3">
+      {/* PLANNING */}
+      <section className="app-mobile-dashboard-v3__card">
+        <div className="app-mobile-dashboard-v3__days-scroll">
+          {days.slice(0, 10).map((day) => (
+            <div
+              key={day.key}
+              className={
+                day.isToday
+                  ? "app-mobile-dashboard-v3__day app-mobile-dashboard-v3__day--today"
+                  : "app-mobile-dashboard-v3__day"
+              }
+            >
+              <div className="app-mobile-dashboard-v3__day-head">
+                <div>
+                  <strong>{day.label}</strong>
+                  <span>{day.shortDate}</span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActionModal({
+                      dateKey: day.key,
+                      dateLabel: day.shortDate,
+                    })
+                  }
+                >
+                  +
+                </button>
+              </div>
+
+              <div className="app-mobile-dashboard-v3__day-items">
+                {day.items.length === 0 ? (
+                  <div className="app-mobile-dashboard-v3__empty">Geen planning</div>
+                ) : (
+                  day.items.slice(0, 3).map((item) => (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className="app-mobile-dashboard-v3__planning-pill"
+                      style={{ background: COLORS[item.type] }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6 TEGELS */}
+      <section className="app-mobile-dashboard-v3__quick-grid">
+        {quickTiles.map((tile) => (
+          <Link
+            key={tile.title}
+            href={tile.href}
+            className="app-mobile-dashboard-v3__quick-tile"
+            style={{ background: tile.color }}
+          >
+            <span>{tile.icon}</span>
+            <strong>{tile.title}</strong>
+          </Link>
+        ))}
+      </section>
+
+      {/* SAMENVATTING COMPACT - RIJTJES */}
+      <section className="app-mobile-dashboard-v3__card app-mobile-dashboard-v3__summary-card">
+        <button
+          type="button"
+          className="app-mobile-dashboard-v3__summary-row"
+          onClick={() => openSummarySheet("active")}
+        >
+          <div>
+            <span>Lopende projecten</span>
+            <strong>{activeProjects}</strong>
+          </div>
+          <em>Openen</em>
+        </button>
+
+        <button
+          type="button"
+          className="app-mobile-dashboard-v3__summary-row"
+          onClick={() => openSummarySheet("planned")}
+        >
+          <div>
+            <span>Geplande projecten</span>
+            <strong>{plannedProjects}</strong>
+          </div>
+          <em>Openen</em>
+        </button>
+
+        <button
+          type="button"
+          className="app-mobile-dashboard-v3__summary-row"
+          onClick={() => openSummarySheet("containers")}
+        >
+          <div>
+            <span>Containers</span>
+            <strong>{containerCount}</strong>
+          </div>
+          <em>Openen</em>
+        </button>
+
+        <button
+          type="button"
+          className="app-mobile-dashboard-v3__summary-row"
+          onClick={() => openSummarySheet("tasks")}
+        >
+          <div>
+            <span>Analyse / taken</span>
+            <strong>{openTasks}</strong>
+          </div>
+          <em>Openen</em>
+        </button>
+      </section>
+
+      {/* SLIMME SECTIE */}
+      <section className="app-mobile-dashboard-v3__card">
+        <div className="app-mobile-dashboard-v3__smart-list">
+          <button
+            type="button"
+            className="app-mobile-dashboard-v3__smart-row"
+            onClick={() => openSmartSheet("today")}
+          >
+            <div>
+              <strong>Vandaag op planning</strong>
+              <span>Projecten, containers en ophaalacties</span>
+            </div>
+            <b>{planningTodayCount}</b>
+          </button>
+
+          <button
+            type="button"
+            className="app-mobile-dashboard-v3__smart-row"
+            onClick={() => openSmartSheet("pickup")}
+          >
+            <div>
+              <strong>Transport vandaag</strong>
+              <span>Leveringen en ophaalacties</span>
+            </div>
+            <b>{deliveriesToday + pickupsToday}</b>
+          </button>
+
+          <button
+            type="button"
+            className="app-mobile-dashboard-v3__smart-row"
+            onClick={() => openSmartSheet("week")}
+          >
+            <div>
+              <strong>Komende 7 dagen</strong>
+              <span>Wat vraagt binnenkort aandacht</span>
+            </div>
+            <b>{startingThisWeek}</b>
+          </button>
+        </div>
+      </section>
+
+      {/* LAATSTE PROJECTEN - ZONDER HEADER */}
+      <section className="app-mobile-dashboard-v3__card app-mobile-dashboard-v3__recent-card">
+        <div className="app-mobile-dashboard-v3__project-scroll">
+          {recentProjects.slice(0, 5).map((project) => (
+            <Link
+              key={project.id}
+              href={`/projects/${project.id}`}
+              className="app-mobile-dashboard-v3__project-row"
+            >
+              <div>
+                <strong>{project.name}</strong>
+                <span>{project.opdrachtgever || "Geen opdrachtgever"}</span>
+              </div>
+
+              <em>
+                {formatDate(project.start_date)} – {formatDate(project.end_date)}
+              </em>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {actionModal ? (
+        <div className="app-mobile-dashboard-v3__sheet-backdrop" onClick={() => setActionModal(null)}>
+          <div className="app-mobile-dashboard-v3__sheet" onClick={(e) => e.stopPropagation()}>
+            <h2>Nieuwe actie</h2>
+            <p>{actionModal.dateLabel}</p>
+
+            <div className="app-mobile-dashboard-v3__sheet-list">
+              <button
+                type="button"
+                onClick={() => {
+                  setPickupModal(actionModal);
+                  setActionModal(null);
+                }}
+              >
+                Ophaalactie
+              </button>
+
+              <Link href="/containers">Container</Link>
+              <Link href="/agenda">Agenda openen</Link>
+
+              <button
+                type="button"
+                className="app-mobile-dashboard-v3__sheet-secondary"
+                onClick={() => setActionModal(null)}
+              >
+                Sluiten
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {pickupModal ? (
+        <div className="app-mobile-dashboard-v3__sheet-backdrop" onClick={() => setPickupModal(null)}>
+          <div className="app-mobile-dashboard-v3__sheet" onClick={(e) => e.stopPropagation()}>
+            <h2>Ophaalactie plannen</h2>
+            <p>{pickupModal.dateLabel}</p>
+
+            <div className="app-mobile-dashboard-v3__form">
+              <select>
+                <option value="">Kies project</option>
+                {projects.map((project) => (
+                  <option key={project.id} value={project.id}>
+                    {project.name}
+                  </option>
+                ))}
+              </select>
+
+              <input placeholder="Wat moet opgehaald worden?" />
+              <input placeholder="Waar ophalen?" />
+              <input placeholder="Bedrijf / contactpersoon" />
+
+              <select>
+                <option>Huur</option>
+                <option>Kantoor</option>
+                <option>Kopen</option>
+                <option>Retour leverancier</option>
+                <option>Overig</option>
+              </select>
+
+              <textarea placeholder="Extra notitie" />
+
+              <button
+                type="button"
+                onClick={() => {
+                  alert("Ophaalactie opslaan komt in de volgende stap.");
+                  setPickupModal(null);
+                }}
+              >
+                Ophaalactie opslaan
+              </button>
+
+              <button
+                type="button"
+                className="app-mobile-dashboard-v3__sheet-secondary"
+                onClick={() => setPickupModal(null)}
+              >
+                Sluiten
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {detailSheet ? (
+        <div className="app-mobile-dashboard-v3__sheet-backdrop" onClick={() => setDetailSheet(null)}>
+          <div className="app-mobile-dashboard-v3__sheet" onClick={(e) => e.stopPropagation()}>
+            <h2>{detailSheet.title}</h2>
+            {detailSheet.subtitle ? <p>{detailSheet.subtitle}</p> : null}
+
+            <div className="app-mobile-dashboard-v3__sheet-scroll">
+              {detailSheet.items.map((item, index) =>
+                item.href ? (
+                  <Link key={`${item.label}-${index}`} href={item.href} className="app-mobile-dashboard-v3__sheet-item">
+                    <div>
+                      <strong>{item.label}</strong>
+                      {item.value ? <span>{item.value}</span> : null}
+                    </div>
+                    <em>Open</em>
+                  </Link>
+                ) : (
+                  <div key={`${item.label}-${index}`} className="app-mobile-dashboard-v3__sheet-item">
+                    <div>
+                      <strong>{item.label}</strong>
+                      {item.value ? <span>{item.value}</span> : null}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
 
-            <Link href="/agenda" className="app-dashboard-v3__agenda-link">
-              Agenda
-            </Link>
+            <button
+              type="button"
+              className="app-mobile-dashboard-v3__sheet-close"
+              onClick={() => setDetailSheet(null)}
+            >
+              Sluiten
+            </button>
           </div>
-
-          <div className="app-dashboard-v3__days-scroll">
-            {days.map((day) => (
-              <div
-                key={day.key}
-                className={
-                  day.isToday
-                    ? "app-dashboard-v3__day-card app-dashboard-v3__day-card--today"
-                    : "app-dashboard-v3__day-card"
-                }
-              >
-                <div className="app-dashboard-v3__day-top">
-                  <div className="app-dashboard-v3__day-heading">
-                    <strong>{day.label}</strong>
-                    <span>{day.shortDate}</span>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setActionModal({
-                        dateKey: day.key,
-                        dateLabel: day.shortDate,
-                      })
-                    }
-                  >
-                    +
-                  </button>
-                </div>
-
-                <div className="app-dashboard-v3__day-items">
-                  {day.items.length === 0 ? (
-                    <div className="app-dashboard-v3__empty-day">Geen planning</div>
-                  ) : (
-                    day.items.slice(0, 3).map((item) => (
-                      <Link
-                        key={item.id}
-                        href={item.href}
-                        className="app-dashboard-v3__planning-pill"
-                        style={{ background: COLORS[item.type] }}
-                      >
-                        {item.label}
-                      </Link>
-                    ))
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="app-dashboard-v3__action-grid">
-          <ActionTile href="/nieuw-project" title="Nieuw" icon="+" color="#ef6b1f" />
-          <ActionTile href="/projecten" title="Projecten" icon="▦" color="#df8783" />
-          <ActionTile href="/agenda" title="Agenda" icon="□" color="#94b6ea" />
-          <ActionTile href="/containers" title="Containers" icon="▤" color="#7ea89d" />
-          <ActionTile href="/analyse" title="Analyse" icon="◷" color="#c39aca" />
-          <ActionTile href="/opdrachtgevers" title="Klanten" icon="◎" color="#b7bcc7" />
-        </section>
-
-        <section className="app-dashboard-v3__kpi-grid">
-          <MobileKpi href="/projecten" label="Lopend" value={activeProjects} />
-          <MobileKpi href="/projecten" label="Gepland" value={plannedProjects} />
-          <MobileKpi href="/containers" label="Containers" value={containerCount} />
-          <MobileKpi href="/analyse" label="Taken" value={openTasks} />
-        </section>
-
-        <section className="app-dashboard-v3__projects-card">
-          <div className="app-dashboard-v3__section-head">
-            <h2>Laatste projecten</h2>
-
-            <Link href="/projecten" className="app-dashboard-v3__small-link">
-              Alles
-            </Link>
-          </div>
-
-          <div className="app-dashboard-v3__project-list">
-            {projects.slice(0, 4).map((project) => (
-              <Link
-                key={project.id}
-                href={`/projects/${project.id}`}
-                className="app-dashboard-v3__project-row"
-              >
-                <div>
-                  <strong>{project.name}</strong>
-                  <span>{project.opdrachtgever || "Geen opdrachtgever"}</span>
-                </div>
-
-                <em>
-                  {formatDate(project.start_date)} – {formatDate(project.end_date)}
-                </em>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {renderActionModal(actionModal, setActionModal, setPickupModal)}
-        {renderPickupModal(pickupModal, setPickupModal, projects)}
-      </main>
-    );
+        </div>
+      ) : null}
+    </main>
+  );
   }
 
   return (
