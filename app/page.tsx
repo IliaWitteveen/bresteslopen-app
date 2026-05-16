@@ -303,11 +303,11 @@ export default function DashboardPage() {
         date,
         isToday: i === 0,
         label:
-          i === 0
-            ? "Vandaag"
-            : new Intl.DateTimeFormat("nl-NL", { weekday: "short" })
-                .format(date)
-                .replace(".", ""),
+  i === 0
+    ? "Vandaag"
+    : capitalizeFirst(
+        new Intl.DateTimeFormat("nl-NL", { weekday: "long" }).format(date)
+      ),
         shortDate: new Intl.DateTimeFormat("nl-NL", {
           day: "2-digit",
           month: "short",
@@ -337,6 +337,7 @@ export default function DashboardPage() {
   if (isMobile) {
       return (
     <main className="app-mobile-dashboard-v3">
+      
       {/* PLANNING */}
       <section className="app-mobile-dashboard-v3__card">
         <div className="app-mobile-dashboard-v3__days-scroll">
@@ -909,6 +910,10 @@ function DesktopKpi({ href, label, value }: { href: string; label: string; value
       <span style={kpiSub}>Klik om te openen</span>
     </Link>
   );
+}
+
+function capitalizeFirst(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 const pageStyle: CSSProperties = {

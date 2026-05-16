@@ -5201,3 +5201,317 @@ a {
     text-align: right !important;
   }
 }
+
+/* =========================================================
+   FINAL MOBILE DASHBOARD TUNING
+   Alleen mobiele app dashboard. Desktop blijft ongemoeid.
+========================================================= */
+
+@media (max-width: 760px) {
+  /* 5. Header vastzetten */
+  .mobile-app-header,
+  .app-mobile-header,
+  .mobile-header,
+  header:has(.mobile-brand),
+  header:has(.mobile-menu-button) {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background: rgba(246, 242, 237, 0.94) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  /* Algemene dashboard schaal */
+  .app-mobile-dashboard-v3 {
+    padding-top: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__card {
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+  }
+
+  /* 1. Planning compacter, maar wel iets meer hoogte */
+  .app-mobile-dashboard-v3__days-scroll {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: 47.5% !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    padding: 2px 2px 4px !important;
+    scroll-snap-type: x mandatory !important;
+  }
+
+  .app-mobile-dashboard-v3__day {
+    min-height: 160px !important;
+    padding: 12px !important;
+    border-radius: 18px !important;
+    scroll-snap-align: start !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head {
+    align-items: flex-start !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong {
+    font-size: 15px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span {
+    font-size: 13px !important;
+    line-height: 1.15 !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+  }
+
+  /* groene plus compacter en perfect gecentreerd */
+  .app-mobile-dashboard-v3__day-head button {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* project/container banners compacter + links uitgelijnd */
+  .app-mobile-dashboard-v3__planning-pill {
+    min-height: 34px !important;
+    height: 34px !important;
+    padding: 0 12px !important;
+    border-radius: 13px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+  .app-mobile-dashboard-v3__day-items {
+    margin-top: 22px !important;
+    display: grid !important;
+    gap: 7px !important;
+  }
+
+  /* 2. Minder ruimte tussen planning en 6 knoppen */
+  .app-mobile-dashboard-v3__card + .app-mobile-dashboard-v3__quick {
+    margin-top: -2px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick {
+    margin-top: 0 !important;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    gap: 9px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile {
+    min-height: 104px !important;
+    border-radius: 18px !important;
+    padding: 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 13px !important;
+    font-size: 20px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong {
+    font-size: 14px !important;
+    line-height: 1.05 !important;
+  }
+
+  /* 3. Vier samenvattingtegels naast elkaar */
+  .app-mobile-dashboard-v3__kpi-grid,
+  .app-mobile-dashboard-v3__summary,
+  .app-mobile-dashboard-v3__stats {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi,
+  .app-mobile-dashboard-v3__summary-card,
+  .app-mobile-dashboard-v3__stat {
+    min-height: 74px !important;
+    padding: 9px 7px !important;
+    border-radius: 15px !important;
+    display: grid !important;
+    align-content: center !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi span,
+  .app-mobile-dashboard-v3__summary-card span,
+  .app-mobile-dashboard-v3__stat span {
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi strong,
+  .app-mobile-dashboard-v3__summary-card strong,
+  .app-mobile-dashboard-v3__stat strong {
+    font-size: 22px !important;
+    line-height: 1 !important;
+    margin-top: 4px !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi em,
+  .app-mobile-dashboard-v3__summary-card em,
+  .app-mobile-dashboard-v3__stat em,
+  .app-mobile-dashboard-v3__kpi-open,
+  .app-mobile-dashboard-v3__open-label {
+    display: none !important;
+  }
+
+  /* Slimme sectie compacter */
+  .app-mobile-dashboard-v3__smart {
+    padding: 12px !important;
+    border-radius: 22px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row {
+    min-height: 62px !important;
+    padding: 11px 13px !important;
+    border-radius: 15px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong {
+    font-size: 15px !important;
+    line-height: 1.15 !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row span {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Laatste projecten: veel compacter */
+  .app-mobile-dashboard-v3__projects {
+    padding: 12px !important;
+    border-radius: 22px !important;
+    max-height: 360px !important;
+    overflow-y: auto !important;
+    margin-bottom: 100px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row {
+    min-height: 58px !important;
+    padding: 10px 12px !important;
+    border-radius: 15px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong {
+    font-size: 16px !important;
+    line-height: 1.15 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row em {
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* 4. Pop-ups hoger in beeld + header kleiner */
+  .app-mobile-dashboard-v3__modal-backdrop {
+    align-items: flex-start !important;
+    padding-top: 82px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal {
+    max-height: calc(100vh - 126px) !important;
+    overflow-y: auto !important;
+    border-radius: 24px !important;
+    padding: 18px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal h2 {
+    font-size: 26px !important;
+    line-height: 1.05 !important;
+    margin: 0 0 6px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal p {
+    font-size: 14px !important;
+    margin: 0 0 14px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal-row {
+    min-height: 56px !important;
+    padding: 11px 13px !important;
+    border-radius: 15px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal-row strong {
+    font-size: 15px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal-row span {
+    font-size: 12px !important;
+  }
+}
+
+/* =========================================================
+   FIX MOBILE SUMMARY: 4 tegels naast elkaar
+========================================================= */
+
+@media (max-width: 760px) {
+  .app-mobile-dashboard-v3__summary-card {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    padding: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row {
+    min-height: 72px !important;
+    padding: 8px 6px !important;
+    border-radius: 15px !important;
+    display: grid !important;
+    align-content: center !important;
+    justify-items: start !important;
+    text-align: left !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row div {
+    display: grid !important;
+    gap: 4px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row span {
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    color: #6b675f !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row strong {
+    font-size: 23px !important;
+    line-height: 1 !important;
+    color: #ef6b1f !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row em {
+    display: none !important;
+  }
+}
