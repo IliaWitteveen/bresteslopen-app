@@ -4482,3 +4482,722 @@ a {
     line-height: 1.05 !important;
   }
 }
+
+/* =========================================================
+   FINAL MOBILE DASHBOARD SCALE FIX
+   Alleen iPhone / mobiele app. Desktop blijft ongemoeid.
+   Plaats helemaal onderaan globals.css.
+========================================================= */
+
+@media (max-width: 760px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3,
+  .app-mobile-dashboard-v3__page,
+  .app-dashboard-v2,
+  .mobile-dashboard-page {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-bottom: 104px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ---------- PLANNING ---------- */
+
+  .app-mobile-dashboard-v3__planning,
+  .app-mobile-dashboard-v3__planning-card,
+  .app-dashboard-v2__today,
+  .mobile-dashboard-planner-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-title,
+  .app-mobile-dashboard-v3__planner-title,
+  .app-dashboard-v2__today-head,
+  .mobile-dashboard-section-head {
+    display: none !important;
+  }
+
+  .app-mobile-dashboard-v3__legend,
+  .app-dashboard-v2__planner-legend,
+  .mobile-dashboard-legend {
+    display: none !important;
+  }
+
+  .app-mobile-dashboard-v3__days,
+  .app-mobile-dashboard-v3__days-scroll,
+  .app-dashboard-v2__days-scroll,
+  .mobile-dashboard-days-scroll {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: calc((100% - 10px) / 2) !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 1px 6px !important;
+    scroll-snap-type: x mandatory !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-mobile-dashboard-v3__day,
+  .app-mobile-dashboard-v3__day-card,
+  .app-dashboard-v2__day,
+  .mobile-dashboard-day-card {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 158px !important;
+    border-radius: 20px !important;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+    scroll-snap-align: start !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__day--today,
+  .app-dashboard-v2__day--today,
+  .mobile-dashboard-day-card--today {
+    border: 2px solid #ef6b1f !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head,
+  .app-dashboard-v2__day-head,
+  .mobile-dashboard-day-top {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong,
+  .app-dashboard-v2__day-head strong,
+  .mobile-dashboard-day-top strong {
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    color: #171717 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span,
+  .app-dashboard-v2__day-head span,
+  .mobile-dashboard-day-top span {
+    display: block !important;
+    margin-top: 3px !important;
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head button,
+  .app-dashboard-v2__day-head button,
+  .mobile-dashboard-day-top button {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 999px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-items,
+  .app-dashboard-v2__day-items,
+  .mobile-dashboard-day-items {
+    display: grid !important;
+    gap: 7px !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill,
+  .app-dashboard-v2__planning-pill,
+  .mobile-dashboard-planning-pill {
+    width: 100% !important;
+    min-height: 42px !important;
+    border-radius: 15px !important;
+    padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-mobile-dashboard-v3__empty,
+  .app-dashboard-v2__empty,
+  .mobile-dashboard-empty-day {
+    min-height: 40px !important;
+    border-radius: 14px !important;
+    padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+  }
+
+  /* ---------- 6 GEKLEURDE KNOPPEN ---------- */
+
+  .app-mobile-dashboard-v3__quick,
+  .app-dashboard-v2__quick,
+  .mobile-dashboard-action-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile,
+  .app-dashboard-v2__quick-tile,
+  .mobile-dashboard-action-tile {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 96px !important;
+    border-radius: 18px !important;
+    padding: 11px 8px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    text-align: center !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span,
+  .app-dashboard-v2__quick-tile span,
+  .mobile-dashboard-action-tile span {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    border-radius: 12px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong,
+  .app-dashboard-v2__quick-tile strong,
+  .mobile-dashboard-action-tile strong {
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile em,
+  .app-dashboard-v2__quick-tile em,
+  .mobile-dashboard-action-tile em {
+    display: none !important;
+  }
+
+  /* ---------- SAMENVATTING 2x2 ---------- */
+
+  .app-mobile-dashboard-v3__summary,
+  .app-mobile-dashboard-v3__kpi-grid,
+  .app-dashboard-v2__stats,
+  .mobile-dashboard-kpi-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi,
+  .app-dashboard-v2__kpi,
+  .mobile-dashboard-kpi {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 76px !important;
+    border-radius: 17px !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 5px !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi span,
+  .app-dashboard-v2__kpi span,
+  .mobile-dashboard-kpi span {
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    color: #6b675f !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi strong,
+  .app-dashboard-v2__kpi strong,
+  .mobile-dashboard-kpi strong {
+    font-size: 28px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    color: #ef6b1f !important;
+  }
+
+  /* ---------- SLIMME SECTIE ---------- */
+
+  .app-mobile-dashboard-v3__smart,
+  .app-mobile-dashboard-v3__insights,
+  .app-dashboard-v2__smart,
+  .mobile-dashboard-smart-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row,
+  .app-mobile-dashboard-v3__insight-row,
+  .app-dashboard-v2__smart-row,
+  .mobile-dashboard-smart-row {
+    min-height: 58px !important;
+    border-radius: 16px !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong,
+  .app-mobile-dashboard-v3__insight-row strong,
+  .app-dashboard-v2__smart-row strong,
+  .mobile-dashboard-smart-row strong {
+    font-size: 14px !important;
+    line-height: 1.15 !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row span,
+  .app-mobile-dashboard-v3__insight-row span,
+  .app-dashboard-v2__smart-row span,
+  .mobile-dashboard-smart-row span {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* ---------- LAATSTE PROJECTEN ---------- */
+
+  .app-mobile-dashboard-v3__projects,
+  .app-dashboard-v2__projects,
+  .mobile-dashboard-projects-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__projects h2,
+  .app-dashboard-v2__projects h2,
+  .mobile-dashboard-projects-card h2 {
+    display: none !important;
+  }
+
+  .app-mobile-dashboard-v3__project-list,
+  .app-dashboard-v2__project-list,
+  .mobile-dashboard-project-list {
+    max-height: 390px !important;
+    overflow-y: auto !important;
+    display: grid !important;
+    gap: 8px !important;
+    padding-right: 2px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row,
+  .app-dashboard-v2__project-row,
+  .mobile-dashboard-project-row {
+    min-height: 66px !important;
+    border-radius: 16px !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong,
+  .app-dashboard-v2__project-row strong,
+  .mobile-dashboard-project-row strong {
+    font-size: 15px !important;
+    line-height: 1.12 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span,
+  .app-dashboard-v2__project-row span,
+  .mobile-dashboard-project-row span {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row em,
+  .app-dashboard-v2__project-row em,
+  .mobile-dashboard-project-row em {
+    max-width: 84px !important;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+    font-style: normal !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+    text-align: right !important;
+  }
+}
+
+/* =========================================================
+   APP MOBILE DASHBOARD V3 - FINAL SCALE FIX
+   Alleen mobiele app. Desktop blijft ongemoeid.
+========================================================= */
+
+@media (max-width: 760px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3 {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    padding: 10px 10px 104px !important;
+    box-sizing: border-box !important;
+    background: #f6f2ed !important;
+  }
+
+  /* PLANNING */
+
+  .app-mobile-dashboard-v3__card {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__days-scroll {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: calc((100% - 10px) / 2) !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 1px 6px !important;
+    scroll-snap-type: x mandatory !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-mobile-dashboard-v3__day {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 160px !important;
+    border-radius: 20px !important;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+    scroll-snap-align: start !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__day--today {
+    border: 2px solid #ef6b1f !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong {
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    color: #171717 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span {
+    display: block !important;
+    margin-top: 3px !important;
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head button {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 999px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill {
+    width: 100% !important;
+    min-height: 42px !important;
+    border-radius: 15px !important;
+    padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 6 KNOPPEN */
+
+  .app-mobile-dashboard-v3__quick {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 96px !important;
+    border-radius: 18px !important;
+    padding: 11px 8px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    text-align: center !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    border-radius: 12px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong {
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile em {
+    display: none !important;
+  }
+
+  /* SAMENVATTING: 2 NAAST ELKAAR */
+
+  .app-mobile-dashboard-v3__kpi-grid,
+  .app-mobile-dashboard-v3__summary {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 76px !important;
+    border-radius: 17px !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 5px !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi span {
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    color: #6b675f !important;
+  }
+
+  .app-mobile-dashboard-v3__kpi strong {
+    font-size: 28px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    color: #ef6b1f !important;
+  }
+
+  /* SLIMME SECTIE */
+
+  .app-mobile-dashboard-v3__smart {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row {
+    min-height: 58px !important;
+    border-radius: 16px !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong {
+    font-size: 14px !important;
+    line-height: 1.15 !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row span {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* LAATSTE PROJECTEN */
+
+  .app-mobile-dashboard-v3__projects {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+    margin: 0 0 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__projects h2 {
+    display: none !important;
+  }
+
+  .app-mobile-dashboard-v3__project-list {
+    max-height: 390px !important;
+    overflow-y: auto !important;
+    display: grid !important;
+    gap: 8px !important;
+    padding-right: 2px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row {
+    min-height: 66px !important;
+    border-radius: 16px !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong {
+    font-size: 15px !important;
+    line-height: 1.12 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row em {
+    max-width: 84px !important;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+    font-style: normal !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+    text-align: right !important;
+  }
+}
