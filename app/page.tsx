@@ -209,14 +209,14 @@ export default function DashboardPage() {
     });
   }
 
-  const quickTiles = [
-    { href: "/nieuw-project", title: "Nieuw Project", icon: "+", color: "#ef6b1f" },
-    { href: "/agenda", title: "Agenda", icon: "◫", color: "#94b6ea" },
-    { href: "/projecten", title: "Projecten", icon: "▦", color: "#df8783" },
-    { href: "/containers", title: "Containers", icon: "▤", color: "#7ea89d" },
-    { href: "/analyse", title: "Analyse", icon: "◷", color: "#c39aca" },
-    { href: "/opdrachtgevers", title: "Opdrachtgevers", icon: "◎", color: "#b7bcc7" },
-  ];
+const quickTiles = [
+  { href: "/nieuw-project", title: "Nieuw Project", icon: "+", color: "#ef6b1f" },
+  { href: "/agenda", title: "Agenda", icon: "📅", color: "#94b6ea" },
+  { href: "/projecten", title: "Projecten", icon: "🏗️", color: "#df8783" },
+  { href: "/containers", title: "Containers", icon: "🗑️", color: "#7ea89d" },
+  { href: "/analyse", title: "Analyse", icon: "📈", color: "#c39aca" },
+  { href: "/opdrachtgevers", title: "Opdrachtgevers", icon: "👥", color: "#b7bcc7" },
+];
 
   useEffect(() => {
     function checkMobile() {
@@ -869,7 +869,11 @@ function ActionTile({
   color: string;
 }) {
   return (
-    <Link href={href} className="app-dashboard-v3__action-tile" style={{ background: color }}>
+    <Link
+      href={href}
+      className="app-mobile-dashboard-v3__quick-tile"
+      style={{ background: color }}
+    >
       <span>{icon}</span>
       <strong>{title}</strong>
     </Link>
