@@ -1087,12 +1087,12 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
           <MobileInfo label="Gebouw" value={project?.building_type || "-"} />
           <MobileInfo label="m²" value={project?.area_m2 || "-"} />
           <MobileInfo
-            label="Bouwjaar"
-            value={
-              (project as Project & { bag_build_year?: string | number | null })
-                .bag_build_year || "-"
-            }
-          />
+  label="Bouwjaar"
+  value={
+    ((project as (Project & { bag_build_year?: string | number | null }) | null)
+      ?.bag_build_year) || "-"
+  }
+/>
           <MobileInfo label="Start" value={formatDate(project?.start_date)} />
           <MobileInfo label="Einde" value={formatDate(project?.end_date)} />
           <MobileInfo label="Werkdagen" value={project?.work_days || "-"} />
