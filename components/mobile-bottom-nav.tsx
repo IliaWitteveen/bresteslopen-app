@@ -1,27 +1,173 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useMemo, useState, type FormEvent } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+
+type SearchResult = {
+  title: string;
+  subtitle: string;
+  href: string;
+  type: "Pagina" | "Project" | "Actie";
+};
 
 const items = [
-  { href: "/", label: "Home", icon: "⌂" },
-  { href: "/projecten", label: "Projecten", icon: "▦" },
-  { href: "/agenda", label: "Agenda", icon: "□" },
-  { href: "/containers", label: "Containers", icon: "▤" },
-  { href: "/analyse", label: "Analyse", icon: "◷" },
+  { href: "/", label: "Home", icon: "⌂", type: "link" as const },
+  { href: "/projecten", label: "Projecten", icon: "▦", type: "link" as const },
+  { href: "/agenda", label: "Agenda", icon: "□", type: "link" as const },
+  { href: "/containers", label: "Containers", icon: "▤", type: "link" as const },
+  { href: "#ai", label: "AI", icon: "✦", type: "ai" as const },
+];
+
+const staticResults: SearchResult[] = [
+  {
+    title: "Nieuw project",
+    subtitle: "Maak direct een nieuw project aan",
+    href: "/nieuw-project",
+    type: "Actie",
+  },
+  {
+    title: "Projecten",
+    subtitle: "Alle projecten bekijken",
+    href: "/projecten",
+    type: "Pagina",
+  },
+  {
+    title: "Agenda",
+    subtitle: "Planning en werkdagen bekijken",
+    href: "/agenda",
+    type: "Pagina",
+  },
+  {
+    title: "Containers",
+    subtitle: "Containerplanning en afvalstromen",
+    href: "/containers",
+    type: "Pagina",
+  },
+  {
+    title: "Analyse",
+    subtitle: "Taken, voortgang en inzichten",
+    href: "/analyse",
+    type: "Pagina",
+  },
+  {
+    title: "Opdrachtgevers",
+    subtitle: "Klanten en opdrachtgevers",
+    href: "/opdrachtgevers",
+    type: "Pagina",
+  },
 ];
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const [aiOpen, setAiOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [answer, setAnswer] = useState("Waar wil je naartoe of wat wil je vinden?");
+  const [results, setResults] = useState<SearchResult[]>(staticResults.slice(0, 4));
+  const [searching, setSearching] = useState(false);
+
+  const filteredStaticResults = useMemo(() => {
+    const q = query.trim().toLowerCase();
+
+    if (!q) return staticResults.slice(0, 4);
+
+    return staticResults.filter((item) => {
+      return (
+        item.title.toLowerCase().includes(q) ||
+        item.subtitle.toLowerCase().includes(q) ||
+        item.type.toLowerCase().includes(q)
+      );
+    });
+  }, [query]);
+
+  async function runAiSearch(event?: FormEvent) {
+    event?.preventDefault();
+
+    const q = query.trim();
+
+    if (!q) {
+      setAnswer("Typ bijvoorbeeld: Van Eeghen, containers, open taken, agenda of nieuw project.");
+      setResults(staticResults.slice(0, 4));
+      return;
+    }
+
+    setSearching(true);
+
+    try {
+      const localMatches = filteredStaticResults;
+
+      const { data: projectMatches, error } = await supabase
+        .from("projects")
+        .select("id, name, address, opdrachtgever, status, start_date, end_date")
+        .or(`name.ilike.%${q}%,address.ilike.%${q}%,opdrachtgever.ilike.%${q}%,status.ilike.%${q}%`)
+        .limit(8);
+
+      if (error) {
+        console.error("AI search project error:", error);
+      }
+
+      const projectResults: SearchResult[] =
+        projectMatches?.map((project) => ({
+          title: project.name || "Project",
+          subtitle:
+            project.opdrachtgever ||
+            project.address ||
+            project.status ||
+            "Project openen",
+          href: `/projects/${project.id}`,
+          type: "Project",
+        })) || [];
+
+      const combined = [...projectResults, ...localMatches].slice(0, 10);
+
+      setResults(combined);
+
+      if (combined.length === 0) {
+        setAnswer(`Ik vind nog niets op "${q}". Probeer een projectnaam, opdrachtgever, adres of pagina.`);
+      } else {
+        setAnswer(`Ik heb ${combined.length} mogelijke resultaten gevonden voor "${q}".`);
+      }
+    } catch (error) {
+      console.error("AI search error:", error);
+      setAnswer("Zoeken lukt nu niet. Probeer het opnieuw of open de juiste pagina via het menu.");
+    } finally {
+      setSearching(false);
+    }
+  }
+
+  function openResult(href: string) {
+    setAiOpen(false);
+    setQuery("");
+    router.push(href);
+  }
 
   return (
     <>
       <nav className="mobile-bottom-nav" aria-label="Mobiele navigatie">
         {items.map((item) => {
           const isActive =
-            item.href === "/"
+            item.type === "link" &&
+            (item.href === "/"
               ? pathname === "/"
-              : pathname === item.href || pathname.startsWith(`${item.href}/`);
+              : pathname === item.href || pathname.startsWith(`${item.href}/`));
+
+          if (item.type === "ai") {
+            return (
+              <button
+                key={item.href}
+                type="button"
+                onClick={() => setAiOpen(true)}
+                className="mobile-bottom-nav__item"
+                aria-label="AI zoeken"
+              >
+                <span className="mobile-bottom-nav__icon">{item.icon}</span>
+                <span className="mobile-bottom-nav__label">{item.label}</span>
+              </button>
+            );
+          }
 
           return (
             <Link
@@ -40,96 +186,57 @@ export default function MobileBottomNav() {
         })}
       </nav>
 
-      <style jsx global>{`
-        .mobile-bottom-nav {
-          display: none;
-        }
+      {aiOpen ? (
+        <div className="mobile-ai-backdrop" onClick={() => setAiOpen(false)}>
+          <section className="mobile-ai-sheet" onClick={(event) => event.stopPropagation()}>
+            <div className="mobile-ai-head">
+              <div>
+                <span>BreSte AI</span>
+                <h2>Zoeken in de app</h2>
+              </div>
 
-        @media (max-width: 760px) {
-          .mobile-bottom-nav {
-            position: fixed;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            z-index: 90;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 4px;
-            padding: 8px;
-            border-radius: 24px;
-            background: rgba(255, 250, 246, 0.94);
-            border: 1px solid rgba(226, 211, 196, 0.9);
-            box-shadow: 0 18px 42px rgba(72, 52, 38, 0.16);
-            backdrop-filter: blur(16px);
-          }
+              <button type="button" onClick={() => setAiOpen(false)}>
+                ×
+              </button>
+            </div>
 
-          .mobile-bottom-nav__item {
-            min-width: 0;
-            min-height: 54px;
-            border-radius: 18px;
-            color: #6b675f;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            font-size: 11px;
-            font-weight: 850;
-            line-height: 1;
-          }
+            <div className="mobile-ai-message">
+              <strong>AI assistent</strong>
+              <p>{answer}</p>
+            </div>
 
-          .mobile-bottom-nav__icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 12px;
-            background: #f3ece6;
-            color: #5f5a54;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 950;
-          }
+            <form onSubmit={runAiSearch} className="mobile-ai-search">
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Zoek project, klant, adres, container, taak..."
+                autoFocus
+              />
 
-          .mobile-bottom-nav__label {
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
+              <button type="submit" disabled={searching}>
+                {searching ? "..." : "Zoek"}
+              </button>
+            </form>
 
-          .mobile-bottom-nav__item--active {
-            color: #ef6b1f;
-          }
+            <div className="mobile-ai-results">
+              {results.map((result) => (
+                <button
+                  key={`${result.type}-${result.href}-${result.title}`}
+                  type="button"
+                  onClick={() => openResult(result.href)}
+                >
+                  <div>
+                    <strong>{result.title}</strong>
+                    <span>{result.subtitle}</span>
+                  </div>
 
-          .mobile-bottom-nav__item--active .mobile-bottom-nav__icon {
-            background: #ef6b1f;
-            color: #ffffff;
-            box-shadow: 0 8px 18px rgba(239, 107, 31, 0.22);
-          }
-        }
-
-        @media (max-width: 390px) {
-          .mobile-bottom-nav {
-            left: 8px;
-            right: 8px;
-            bottom: 8px;
-            border-radius: 22px;
-          }
-
-          .mobile-bottom-nav__item {
-            min-height: 50px;
-            font-size: 10px;
-          }
-
-          .mobile-bottom-nav__icon {
-            width: 26px;
-            height: 26px;
-            font-size: 13px;
-          }
-        }
-      `}</style>
+                  <em>{result.type}</em>
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+      ) : null}
     </>
   );
 }
