@@ -153,10 +153,16 @@ export default function AppHeader() {
           <img src="/LOGO-bresteslopen-kleur.svg" alt="BreSteSlopen" />
         </Link>
 
-        <div className="mobile-user-mini">
-          <strong>{name || "-"}</strong>
-          <span>{role || "-"}</span>
-        </div>
+        <button
+  type="button"
+  className="mobile-header-ai-button"
+  onClick={() => {
+    window.dispatchEvent(new CustomEvent("open-mobile-ai"));
+  }}
+  aria-label="AI openen"
+>
+  ✦
+</button>
       </header>
 
       {menuOpen ? (
