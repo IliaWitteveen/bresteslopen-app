@@ -7125,3 +7125,442 @@ a {
     white-space: nowrap !important;
   }
 }
+
+/* =========================================================
+   HARD FINAL MOBILE DASHBOARD FIX
+   Plak HELEMAAL onderaan globals.css
+   ========================================================= */
+
+@media (max-width: 760px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+    background: #f6f2ed !important;
+  }
+
+  /* genoeg ruimte zodat planning NIET achter vaste header valt */
+  .app-mobile-dashboard-v3 {
+    padding: 126px 10px 96px !important;
+    min-height: auto !important;
+    background: #f6f2ed !important;
+  }
+
+  /* vaste header bovenaan */
+  .mobile-app-header,
+  header.mobile-app-header {
+    position: fixed !important;
+    top: 14px !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 80 !important;
+
+    height: 68px !important;
+    min-height: 68px !important;
+    padding: 8px 12px !important;
+
+    display: grid !important;
+    grid-template-columns: 52px 1fr 52px !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    border-radius: 23px !important;
+    background: rgba(255, 250, 246, 0.97) !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 12px 24px rgba(72, 52, 38, 0.08) !important;
+  }
+
+  .mobile-menu-button {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    border-radius: 18px !important;
+    padding: 0 !important;
+  }
+
+  .mobile-header-logo {
+    height: 52px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+  }
+
+  .mobile-header-logo img {
+    height: 43px !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .mobile-user-mini {
+    display: none !important;
+  }
+
+  .mobile-header-ai-button {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    border-radius: 18px !important;
+    border: none !important;
+    background: #ef6b1f !important;
+    color: #ffffff !important;
+    font-size: 25px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    box-shadow: 0 10px 18px rgba(239, 107, 31, 0.22) !important;
+  }
+
+  /* menu moet boven header liggen */
+  .mobile-app-menu,
+  .mobile-app-menu-backdrop,
+  .mobile-menu,
+  .mobile-menu-backdrop {
+    z-index: 99999 !important;
+  }
+
+  /* alle secties gelijke professionele tussenruimte */
+  .app-mobile-dashboard-v3__card,
+  .app-mobile-dashboard-v3__quick-grid,
+  .app-mobile-dashboard-v3__summary-card,
+  .app-mobile-dashboard-v3__smart-card,
+  .app-mobile-dashboard-v3__projects-card {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* PLANNING: 2 dagen precies passend */
+  .app-mobile-dashboard-v3__card:first-of-type {
+    padding: 12px !important;
+    border-radius: 22px !important;
+  }
+
+  .app-mobile-dashboard-v3__days-scroll {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: calc((100vw - 72px) / 2) !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding: 0 1px 2px !important;
+    scroll-snap-type: x mandatory !important;
+  }
+
+  .app-mobile-dashboard-v3__day {
+    width: auto !important;
+    min-width: 0 !important;
+    height: 132px !important;
+    min-height: 132px !important;
+    padding: 9px !important;
+    border-radius: 17px !important;
+    scroll-snap-align: start !important;
+  }
+
+  .app-mobile-dashboard-v3__day--today {
+    border-width: 2px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head {
+    display: grid !important;
+    grid-template-columns: 1fr 26px !important;
+    align-items: start !important;
+    gap: 5px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong {
+    font-size: 13px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.15px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span {
+    font-size: 10.5px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+    margin-top: 2px !important;
+  }
+
+  /* plusknop echt klein en rond */
+  .app-mobile-dashboard-v3__day-head button {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    aspect-ratio: 1 / 1 !important;
+
+    border-radius: 999px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #e9fbef !important;
+    border: 1px solid #8ee0aa !important;
+    color: #15803d !important;
+
+    font-size: 16px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-items {
+    display: grid !important;
+    gap: 5px !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill,
+  .app-mobile-dashboard-v3__empty {
+    height: 30px !important;
+    min-height: 30px !important;
+    border-radius: 12px !important;
+    padding: 0 10px !important;
+
+    font-size: 10.5px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    text-align: left !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__empty {
+    justify-content: center !important;
+    text-align: center !important;
+    color: #7b746c !important;
+    background: #f1ece6 !important;
+  }
+
+  /* 6 knoppen iets compacter */
+  .app-mobile-dashboard-v3__quick-grid {
+    padding: 11px !important;
+    gap: 8px !important;
+    border-radius: 22px !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile {
+    height: 98px !important;
+    min-height: 98px !important;
+    border-radius: 18px !important;
+    padding: 8px 5px !important;
+    gap: 7px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    border-radius: 13px !important;
+    font-size: 18px !important;
+    margin: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong {
+    font-size: 11px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.35px !important;
+    max-width: 100% !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* 4 KPI tegels: professioneler, netter, minder knullig */
+  .app-mobile-dashboard-v3__summary-card {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+
+    padding: 11px !important;
+    border-radius: 22px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row {
+    height: 70px !important;
+    min-height: 70px !important;
+    border-radius: 15px !important;
+    padding: 8px 7px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+
+    background: #ffffff !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 5px 12px rgba(72, 52, 38, 0.035) !important;
+    text-align: left !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row div {
+    display: contents !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row span {
+    display: block !important;
+    font-size: 8.6px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+    color: #6b675f !important;
+    letter-spacing: -0.2px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row strong {
+    display: block !important;
+    font-size: 24px !important;
+    line-height: 0.92 !important;
+    font-weight: 900 !important;
+    color: #ef6b1f !important;
+    margin: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row em {
+    display: none !important;
+  }
+
+  /* slimme sectie iets compacter */
+  .app-mobile-dashboard-v3__smart-card {
+    padding: 11px !important;
+    border-radius: 22px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row {
+    min-height: 54px !important;
+    border-radius: 15px !important;
+    padding: 9px 11px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong {
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row span {
+    font-size: 10.5px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* projecten compact houden en onderruimte weg */
+  .app-mobile-dashboard-v3__projects-card {
+    padding: 11px !important;
+    border-radius: 22px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row {
+    min-height: 55px !important;
+    border-radius: 15px !important;
+    padding: 9px 11px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong {
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span,
+  .app-mobile-dashboard-v3__project-row em {
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* lege ruimte onderaan drastisch beperken */
+  .app-mobile-dashboard-v3::after {
+    content: none !important;
+    display: none !important;
+    height: 0 !important;
+  }
+
+  main.app-mobile-dashboard-v3 > *:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  /* popups hoger en header kleiner */
+  .app-mobile-dashboard-v3__sheet-backdrop,
+  .app-mobile-dashboard-v3__modal-backdrop {
+    align-items: flex-start !important;
+    padding-top: 88px !important;
+    z-index: 99990 !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet,
+  .app-mobile-dashboard-v3__modal {
+    max-height: calc(100vh - 122px) !important;
+    overflow-y: auto !important;
+    border-radius: 24px !important;
+    padding: 18px !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet h2,
+  .app-mobile-dashboard-v3__modal h2 {
+    font-size: 22px !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.4px !important;
+  }
+
+  /* bottom nav schaal herstellen */
+  .mobile-bottom-nav {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: 10px !important;
+    height: 74px !important;
+    padding: 7px 8px !important;
+    border-radius: 22px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    z-index: 120 !important;
+  }
+
+  .mobile-bottom-nav__item {
+    min-width: 0 !important;
+    min-height: 56px !important;
+    border-radius: 17px !important;
+    padding: 4px 2px !important;
+    display: grid !important;
+    justify-items: center !important;
+    align-content: center !important;
+    gap: 3px !important;
+  }
+
+  .mobile-bottom-nav__icon {
+    width: 33px !important;
+    height: 33px !important;
+    border-radius: 13px !important;
+    font-size: 14px !important;
+  }
+
+  .mobile-bottom-nav__label {
+    font-size: 10px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+  }
+}
