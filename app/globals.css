@@ -6690,3 +6690,438 @@ a {
     margin-bottom: 12px !important;
   }
 }
+
+/* =========================================================
+   FINAL MOBILE HOME FIX — 18 MAY
+   Alleen mobiele app/home/header/nav. Desktop blijft ongemoeid.
+   ========================================================= */
+
+@media (max-width: 760px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+
+  body {
+    background: #f6f2ed !important;
+  }
+
+  /* PAGE: ruimte voor vaste header + bottom nav, geen grote lege onderruimte */
+  .app-mobile-dashboard-v3 {
+    padding: 108px 10px 118px !important;
+    min-height: auto !important;
+    background: #f6f2ed !important;
+  }
+
+  /* HEADER MOET VAST BOVENIN BLIJVEN */
+  .mobile-app-header,
+  header.mobile-app-header {
+    position: fixed !important;
+    top: 14px !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 80 !important;
+    height: 68px !important;
+    min-height: 68px !important;
+    padding: 8px 12px !important;
+    border-radius: 23px !important;
+    background: rgba(255, 250, 246, 0.96) !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 12px 24px rgba(72, 52, 38, 0.08) !important;
+    display: grid !important;
+    grid-template-columns: 52px 1fr 52px !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .mobile-menu-button {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    border-radius: 18px !important;
+    border: 1px solid #d9cfc4 !important;
+    background: #fffaf6 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .mobile-menu-button span {
+    width: 23px !important;
+    height: 3px !important;
+    border-radius: 99px !important;
+    background: #171717 !important;
+  }
+
+  .mobile-header-logo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    height: 52px !important;
+  }
+
+  .mobile-header-logo img {
+    height: 43px !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .mobile-header-ai-button {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    border-radius: 18px !important;
+    border: none !important;
+    background: #ef6b1f !important;
+    color: #ffffff !important;
+    font-size: 25px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    box-shadow: 0 10px 18px rgba(239, 107, 31, 0.22) !important;
+  }
+
+  .mobile-user-mini {
+    display: none !important;
+  }
+
+  /* MENU MOET ALTIJD BOVEN HEADER LIGGEN */
+  .mobile-app-menu,
+  .mobile-app-menu-backdrop,
+  .mobile-menu,
+  .mobile-menu-backdrop {
+    z-index: 99999 !important;
+  }
+
+  /* PLANNING: 2 dagen precies zichtbaar, niet te groot */
+  .app-mobile-dashboard-v3__card:first-of-type {
+    padding: 13px !important;
+    margin-bottom: 10px !important;
+    border-radius: 22px !important;
+  }
+
+  .app-mobile-dashboard-v3__days-scroll {
+    grid-auto-columns: calc((100vw - 72px) / 2) !important;
+    gap: 9px !important;
+    overflow-x: auto !important;
+    padding: 0 1px 3px !important;
+    scroll-snap-type: x mandatory !important;
+  }
+
+  .app-mobile-dashboard-v3__day {
+    min-height: 142px !important;
+    height: 142px !important;
+    padding: 10px !important;
+    border-radius: 18px !important;
+    scroll-snap-align: start !important;
+  }
+
+  .app-mobile-dashboard-v3__day--today {
+    border-width: 2px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head {
+    display: grid !important;
+    grid-template-columns: 1fr 32px !important;
+    align-items: start !important;
+    gap: 6px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong {
+    font-size: 15px !important;
+    line-height: 1.08 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.15px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span {
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    color: #6b675f !important;
+    margin-top: 3px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head button {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    max-width: 30px !important;
+    max-height: 30px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #e9fbef !important;
+    border: 1px solid #8ee0aa !important;
+    color: #15803d !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-items {
+    display: grid !important;
+    gap: 5px !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill,
+  .app-mobile-dashboard-v3__empty {
+    min-height: 34px !important;
+    height: 34px !important;
+    border-radius: 13px !important;
+    padding: 0 12px !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    text-align: left !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__empty {
+    justify-content: center !important;
+    text-align: center !important;
+    background: #f1ece6 !important;
+    color: #7b746c !important;
+  }
+
+  /* RUIMTE TUSSEN PLANNER EN 6 KNOPPEN KLEINER */
+  .app-mobile-dashboard-v3__card {
+    margin-bottom: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-grid {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+    padding: 12px !important;
+    gap: 9px !important;
+    border-radius: 22px !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  /* 6 TEGELS COMPACTER + TEKST PAST */
+  .app-mobile-dashboard-v3__quick-tile {
+    min-height: 105px !important;
+    height: 105px !important;
+    border-radius: 18px !important;
+    padding: 10px 7px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    text-align: center !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span {
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px !important;
+    min-height: 39px !important;
+    border-radius: 14px !important;
+    font-size: 19px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong {
+    font-size: 12.5px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.25px !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: center !important;
+  }
+
+  /* OPDRACHTGEVERS MAG NETJES BREKEN */
+  .app-mobile-dashboard-v3__quick-tile strong {
+    hyphens: auto !important;
+  }
+
+  /* 4 SAMENVATTING TEGELS PROFESSIONELER */
+  .app-mobile-dashboard-v3__summary-card {
+    padding: 12px !important;
+    border-radius: 22px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-card {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row {
+    min-height: 74px !important;
+    height: 74px !important;
+    border-radius: 16px !important;
+    padding: 8px 7px !important;
+    display: grid !important;
+    grid-template-rows: 1fr auto !important;
+    align-items: stretch !important;
+    text-align: left !important;
+    background: #fff !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row div {
+    display: block !important;
+    min-width: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row span {
+    display: block !important;
+    font-size: 9px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+    color: #6b675f !important;
+    letter-spacing: -0.15px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row strong {
+    display: block !important;
+    margin-top: 5px !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    color: #ef6b1f !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row em {
+    display: none !important;
+  }
+
+  /* SLIMME SECTIE COMPACT */
+  .app-mobile-dashboard-v3__smart-card {
+    margin-bottom: 10px !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row {
+    min-height: 58px !important;
+    border-radius: 16px !important;
+    padding: 10px 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong {
+    font-size: 15px !important;
+    line-height: 1.1 !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row span {
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* LAATSTE PROJECTEN: minder groot */
+  .app-mobile-dashboard-v3__projects-card {
+    padding: 12px !important;
+    border-radius: 22px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row {
+    min-height: 58px !important;
+    border-radius: 16px !important;
+    padding: 10px 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong {
+    font-size: 15px !important;
+    line-height: 1.1 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span,
+  .app-mobile-dashboard-v3__project-row em {
+    font-size: 10.5px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* POPUPS HOGER + HEADER KLEINER */
+  .app-mobile-dashboard-v3__sheet-backdrop,
+  .app-mobile-dashboard-v3__modal-backdrop {
+    align-items: flex-start !important;
+    padding-top: 92px !important;
+    z-index: 99990 !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet,
+  .app-mobile-dashboard-v3__modal {
+    max-height: calc(100vh - 128px) !important;
+    overflow-y: auto !important;
+    border-radius: 24px !important;
+    padding: 18px !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet h2,
+  .app-mobile-dashboard-v3__modal h2 {
+    font-size: 24px !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.4px !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet p,
+  .app-mobile-dashboard-v3__modal p {
+    font-size: 12px !important;
+  }
+
+  /* BOTTOM NAV — schaal terug goed, AI blijft onderin */
+  .mobile-bottom-nav {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: 10px !important;
+    height: 76px !important;
+    padding: 7px 8px !important;
+    border-radius: 22px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    z-index: 120 !important;
+  }
+
+  .mobile-bottom-nav__item {
+    min-width: 0 !important;
+    min-height: 58px !important;
+    border-radius: 17px !important;
+    padding: 4px 2px !important;
+    display: grid !important;
+    justify-items: center !important;
+    align-content: center !important;
+    gap: 3px !important;
+  }
+
+  .mobile-bottom-nav__icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 13px !important;
+    font-size: 14px !important;
+  }
+
+  .mobile-bottom-nav__label {
+    font-size: 10px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+  }
+}
