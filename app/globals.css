@@ -7533,73 +7533,61 @@ a {
 }
 
 /* =========================================================
-   DEFINITIEVE MOBILE HOMEPAGE OVERRIDE
-   Dit blok moet HELEMAAL ONDERAAN globals.css staan.
+   DEFINITIEVE MOBILE HOME FIX
+   Alleen mobiel. Moet HELEMAAL ONDERAAN globals.css staan.
    ========================================================= */
 
 @media (max-width: 760px) {
   html,
   body {
+    width: 100% !important;
+    max-width: 100% !important;
     overflow-x: hidden !important;
     background: #f6f2ed !important;
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
+  /* PAGE: ruimte voor vaste header + minder lege onderruimte */
   .app-mobile-dashboard-v3 {
-    padding: 102px 10px 96px !important;
-    background: #f6f2ed !important;
-    min-height: auto !important;
+    width: 100% !important;
+    max-width: 100vw !important;
     overflow-x: hidden !important;
+    padding: 112px 10px 104px !important;
+    background: #f6f2ed !important;
   }
 
-  /* HEADER VAST BOVENIN */
+  /* HEADER: vast, gecentreerd, niet meer half buiten beeld */
   .mobile-app-header,
   header.mobile-app-header {
     position: fixed !important;
-    top: max(12px, env(safe-area-inset-top)) !important;
+    top: 14px !important;
     left: 10px !important;
     right: 10px !important;
+    width: auto !important;
+    max-width: calc(100vw - 20px) !important;
     z-index: 80 !important;
 
-    height: 68px !important;
-    min-height: 68px !important;
-    padding: 8px 12px !important;
-
     display: grid !important;
-    grid-template-columns: 48px minmax(0, 1fr) 48px !important;
+    grid-template-columns: 48px 1fr 48px !important;
     align-items: center !important;
     gap: 8px !important;
 
-    border-radius: 24px !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    padding: 8px 10px !important;
+    margin: 0 !important;
+
+    border-radius: 23px !important;
     background: rgba(255, 250, 246, 0.98) !important;
     border: 1px solid #eadfd4 !important;
-    box-shadow: 0 12px 24px rgba(72, 52, 38, 0.08) !important;
+    box-shadow: 0 12px 26px rgba(72, 52, 38, 0.1) !important;
     backdrop-filter: blur(14px) !important;
   }
 
-  .mobile-menu-button {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    border-radius: 16px !important;
-    padding: 0 !important;
-    flex: 0 0 48px !important;
-  }
-
-  .mobile-header-logo {
-    min-width: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .mobile-header-logo img {
-    height: 44px !important;
-    max-width: 205px !important;
-    width: auto !important;
-    object-fit: contain !important;
-  }
-
+  .mobile-menu-button,
   .mobile-header-ai-button {
     width: 48px !important;
     height: 48px !important;
@@ -7607,234 +7595,379 @@ a {
     min-height: 48px !important;
     max-width: 48px !important;
     max-height: 48px !important;
+    flex: 0 0 48px !important;
 
     border-radius: 16px !important;
-    border: none !important;
-    background: #ef6b1f !important;
-    color: #ffffff !important;
-
-    font-size: 22px !important;
-    line-height: 1 !important;
-    font-weight: 900 !important;
-
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
 
     padding: 0 !important;
     margin: 0 !important;
-    flex: 0 0 48px !important;
-    box-shadow: 0 8px 18px rgba(239, 107, 31, 0.22) !important;
     cursor: pointer !important;
-    appearance: none !important;
+  }
+
+  .mobile-menu-button {
+    border: 1px solid #ded3c8 !important;
+    background: #ffffff !important;
+    box-shadow: 0 8px 18px rgba(72, 52, 38, 0.08) !important;
+  }
+
+  .mobile-menu-button span {
+    width: 20px !important;
+    height: 2.5px !important;
+    border-radius: 999px !important;
+    background: #171717 !important;
+    display: block !important;
+  }
+
+  .mobile-header-logo {
+    min-width: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: hidden !important;
+  }
+
+  .mobile-header-logo img {
+    height: 46px !important;
+    width: auto !important;
+    max-width: 205px !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .mobile-header-ai-button {
+    border: none !important;
+    background: #ef6b1f !important;
+    color: #ffffff !important;
+    font-size: 23px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    box-shadow: 0 10px 20px rgba(239, 107, 31, 0.22) !important;
   }
 
   .mobile-user-mini {
     display: none !important;
   }
 
-  /* MENU BOVEN HEADER */
+  /* Menu moet boven header liggen */
   .mobile-menu-backdrop {
     position: fixed !important;
     inset: 0 !important;
     z-index: 9998 !important;
   }
 
-  .mobile-app-menu,
-  .mobile-menu,
   .mobile-menu-panel {
-    position: fixed !important;
+    position: relative !important;
     z-index: 9999 !important;
   }
 
-  /* PLANNING: 2 DAGEN PASSEN PRECIES */
-  .app-mobile-dashboard-v3__card:first-of-type {
-    margin-top: 0 !important;
-    margin-bottom: 12px !important;
-    padding: 12px !important;
-    border-radius: 22px !important;
+  /* SECTIES: gelijke professionele afstand */
+  .app-mobile-dashboard-v3__card,
+  .app-mobile-dashboard-v3__quick-grid,
+  .app-mobile-dashboard-v3__summary-card,
+  .app-mobile-dashboard-v3__smart-card,
+  .app-mobile-dashboard-v3__projects {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 14px !important;
+    border-radius: 23px !important;
   }
 
+  /* PLANNING: 2 dagen exact zichtbaar */
   .app-mobile-dashboard-v3__days-scroll {
-    grid-auto-columns: calc((100vw - 86px) / 2) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: calc((100% - 10px) / 2) !important;
     gap: 10px !important;
     overflow-x: auto !important;
+    overflow-y: hidden !important;
     padding: 0 0 2px !important;
+    scroll-snap-type: x mandatory !important;
   }
 
   .app-mobile-dashboard-v3__day {
-    min-height: 126px !important;
-    height: 126px !important;
-    padding: 10px !important;
-    border-radius: 18px !important;
+    scroll-snap-align: start !important;
+    min-width: 0 !important;
+    min-height: 152px !important;
+    height: 152px !important;
+    border-radius: 19px !important;
+    padding: 12px !important;
+    background: #fffdfb !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: none !important;
+  }
+
+  .app-mobile-dashboard-v3__day--today {
+    border: 2px solid #ef6b1f !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
   }
 
   .app-mobile-dashboard-v3__day-head strong {
-    font-size: 15px !important;
+    font-size: 18px !important;
     line-height: 1.05 !important;
     font-weight: 900 !important;
+    color: #171717 !important;
   }
 
   .app-mobile-dashboard-v3__day-head span {
-    font-size: 13px !important;
-    line-height: 1.1 !important;
-    margin-top: 3px !important;
+    margin-top: 5px !important;
+    display: block !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
     font-weight: 800 !important;
+    color: #6b675f !important;
   }
 
   .app-mobile-dashboard-v3__day-head button {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
-    min-height: 34px !important;
-    max-width: 34px !important;
-    max-height: 34px !important;
-    border-radius: 12px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    max-width: 38px !important;
+    max-height: 38px !important;
     padding: 0 !important;
-    font-size: 18px !important;
-    line-height: 1 !important;
+    margin: 0 !important;
+
+    border-radius: 14px !important;
+    border: 1px solid #8be3aa !important;
+    background: #e9fbef !important;
+    color: #15803d !important;
 
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+
+    font-size: 19px !important;
+    line-height: 1 !important;
+    font-weight: 950 !important;
+    flex: 0 0 38px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-items {
+    display: grid !important;
+    gap: 6px !important;
   }
 
   .app-mobile-dashboard-v3__planning-pill,
   .app-mobile-dashboard-v3__empty {
-    height: 34px !important;
     min-height: 34px !important;
-    padding: 0 10px !important;
+    height: 34px !important;
     border-radius: 13px !important;
+    padding: 0 12px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
     font-size: 12px !important;
-    line-height: 34px !important;
+    line-height: 1 !important;
     font-weight: 850 !important;
     text-align: left !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
-  /* 6 KNOPPEN */
+  .app-mobile-dashboard-v3__empty {
+    justify-content: center !important;
+    background: #f0ebe6 !important;
+    color: #7a7068 !important;
+  }
+
+  /* 6 KNOPPEN: compacter, tekst past */
   .app-mobile-dashboard-v3__quick-grid {
-    margin-top: 0 !important;
-    margin-bottom: 12px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
     padding: 12px !important;
-    gap: 9px !important;
   }
 
   .app-mobile-dashboard-v3__quick-tile {
-    min-height: 104px !important;
-    height: 104px !important;
-    border-radius: 20px !important;
-    padding: 11px !important;
+    min-width: 0 !important;
+    height: 116px !important;
+    min-height: 116px !important;
+    border-radius: 19px !important;
+    padding: 11px 8px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    text-align: center !important;
+    overflow: hidden !important;
   }
 
   .app-mobile-dashboard-v3__quick-tile span {
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 13px !important;
-    font-size: 18px !important;
+    width: 43px !important;
+    height: 43px !important;
+    min-width: 43px !important;
+    min-height: 43px !important;
+    border-radius: 14px !important;
+    font-size: 21px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .app-mobile-dashboard-v3__quick-tile strong {
+    width: 100% !important;
+    max-width: 100% !important;
     font-size: 14px !important;
     line-height: 1.05 !important;
+    font-weight: 900 !important;
     letter-spacing: -0.2px !important;
+    color: #ffffff !important;
+    text-align: center !important;
     white-space: nowrap !important;
+    overflow: visible !important;
   }
 
-  /* SAMENVATTING: NETTER */
+  /* SAMENVATTING: professioneler en rustiger */
   .app-mobile-dashboard-v3__summary-card {
     display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: 8px !important;
     padding: 10px !important;
-    margin-bottom: 12px !important;
-    border-radius: 22px !important;
+    background: #fffaf6 !important;
   }
 
   .app-mobile-dashboard-v3__summary-row {
+    min-width: 0 !important;
     min-height: 78px !important;
-    padding: 9px 8px !important;
     border-radius: 16px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
+    padding: 9px 8px !important;
+    background: #ffffff !important;
+    border: 1px solid #eadfd4 !important;
+
+    display: grid !important;
+    align-content: space-between !important;
     text-align: left !important;
   }
 
+  .app-mobile-dashboard-v3__summary-row div {
+    display: grid !important;
+    gap: 4px !important;
+  }
+
   .app-mobile-dashboard-v3__summary-row span {
-    font-size: 10px !important;
+    font-size: 10.5px !important;
     line-height: 1.05 !important;
-    font-weight: 900 !important;
+    font-weight: 850 !important;
+    color: #6b675f !important;
+    letter-spacing: -0.15px !important;
   }
 
   .app-mobile-dashboard-v3__summary-row strong {
     font-size: 28px !important;
-    line-height: 1 !important;
-    margin: 0 !important;
+    line-height: 0.9 !important;
+    font-weight: 950 !important;
+    color: #ef6b1f !important;
   }
 
   .app-mobile-dashboard-v3__summary-row em {
     display: none !important;
   }
 
-  /* SLIMME KAART + PROJECTEN */
-  .app-mobile-dashboard-v3__smart-card,
-  .app-mobile-dashboard-v3__projects {
-    margin-top: 0 !important;
-    margin-bottom: 12px !important;
+  /* SLIMME SECTIE */
+  .app-mobile-dashboard-v3__smart-card {
+    padding: 12px !important;
   }
 
-  .app-mobile-dashboard-v3__project-row strong {
+  .app-mobile-dashboard-v3__smart-row {
+    min-height: 62px !important;
+    border-radius: 17px !important;
+    padding: 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong {
     font-size: 17px !important;
     line-height: 1.1 !important;
   }
 
-  .app-mobile-dashboard-v3__project-row span,
-  .app-mobile-dashboard-v3__project-row em {
+  .app-mobile-dashboard-v3__smart-row span {
     font-size: 12px !important;
     line-height: 1.15 !important;
   }
 
-  /* POPUPS HOGER EN COMPACTER */
-  .app-mobile-dashboard-v3__modal,
-  .app-mobile-dashboard-v3__sheet {
-    max-height: calc(100dvh - 130px) !important;
-    margin-bottom: 96px !important;
-    padding: 18px !important;
-    border-radius: 24px 24px 0 0 !important;
+  /* PROJECTENLIJST: compacter */
+  .app-mobile-dashboard-v3__project-row {
+    min-height: 70px !important;
+    border-radius: 17px !important;
+    padding: 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong {
+    font-size: 18px !important;
+    line-height: 1.1 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span {
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row em {
+    font-size: 11.5px !important;
+    line-height: 1.1 !important;
+  }
+
+  /* POPUPS hoger en met kleinere titel */
+  .app-mobile-dashboard-v3__modal-backdrop {
+    align-items: center !important;
+    padding: 18px 14px 110px !important;
+  }
+
+  .app-mobile-dashboard-v3__modal {
+    max-height: 72dvh !important;
     overflow-y: auto !important;
+    border-radius: 24px !important;
+    padding: 18px !important;
   }
 
-  .app-mobile-dashboard-v3__modal h2,
-  .app-mobile-dashboard-v3__sheet h2 {
-    font-size: 28px !important;
+  .app-mobile-dashboard-v3__modal h2 {
+    font-size: 26px !important;
     line-height: 1.05 !important;
+    letter-spacing: -0.5px !important;
   }
 
-  /* BOTTOM NAV SCHAAL HERSTELLEN */
+  /* BOTTOM NAV: schaal weer normaal */
   .mobile-bottom-nav {
     left: 10px !important;
     right: 10px !important;
-    bottom: max(8px, env(safe-area-inset-bottom)) !important;
-    height: 76px !important;
-    min-height: 76px !important;
-    padding: 7px !important;
-    border-radius: 24px !important;
-
+    bottom: 10px !important;
+    width: auto !important;
+    max-width: calc(100vw - 20px) !important;
+    padding: 8px !important;
+    border-radius: 23px !important;
     display: grid !important;
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 4px !important;
+    gap: 6px !important;
+    overflow: hidden !important;
   }
 
   .mobile-bottom-nav__item {
     min-width: 0 !important;
-    min-height: 60px !important;
-    gap: 3px !important;
+    min-height: 58px !important;
+    padding: 5px 2px !important;
+    border-radius: 17px !important;
   }
 
   .mobile-bottom-nav__icon {
-    width: 36px !important;
-    height: 36px !important;
+    width: 34px !important;
+    height: 34px !important;
     border-radius: 13px !important;
     font-size: 14px !important;
   }
