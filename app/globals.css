@@ -6292,22 +6292,6 @@ a {
     display: none !important;
   }
 
-  .mobile-header-ai-button {
-    width: 48px !important;
-    height: 48px !important;
-    border: none !important;
-    border-radius: 16px !important;
-    background: #ef6b1f !important;
-    color: #ffffff !important;
-    font-size: 22px !important;
-    font-weight: 900 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: 0 8px 18px rgba(239, 107, 31, 0.22) !important;
-    cursor: pointer !important;
-  }
-
   /* Menu moet altijd boven header liggen */
   .mobile-menu-backdrop {
     position: fixed !important;
@@ -6770,25 +6754,6 @@ a {
     display: block !important;
   }
 
-  .mobile-header-ai-button {
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
-    min-height: 52px !important;
-    border-radius: 18px !important;
-    border: none !important;
-    background: #ef6b1f !important;
-    color: #ffffff !important;
-    font-size: 25px !important;
-    line-height: 1 !important;
-    font-weight: 900 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    box-shadow: 0 10px 18px rgba(239, 107, 31, 0.22) !important;
-  }
-
   .mobile-user-mini {
     display: none !important;
   }
@@ -7198,26 +7163,28 @@ a {
   }
 
   .mobile-header-ai-button {
-    width: 52px !important;
-    height: 52px !important;
-    min-width: 52px !important;
-    min-height: 52px !important;
-    border-radius: 18px !important;
-    border: none !important;
-    background: #ef6b1f !important;
-    color: #ffffff !important;
-    font-size: 25px !important;
-    font-weight: 900 !important;
-    line-height: 1 !important;
-    padding: 0 !important;
-
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    box-shadow: 0 10px 18px rgba(239, 107, 31, 0.22) !important;
-  }
-
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  max-width: 42px !important;
+  max-height: 42px !important;
+  border-radius: 14px !important;
+  border: none !important;
+  background: #ef6b1f !important;
+  color: #ffffff !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  box-shadow: 0 8px 18px rgba(239, 107, 31, 0.22) !important;
+  cursor: pointer !important;
+  flex: 0 0 42px !important;
+  appearance: none !important;
+}
   /* menu moet boven header liggen */
   .mobile-app-menu,
   .mobile-app-menu-backdrop,
@@ -7561,6 +7528,320 @@ a {
     font-size: 10px !important;
     line-height: 1 !important;
     font-weight: 900 !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* =========================================================
+   DEFINITIEVE MOBILE HOMEPAGE OVERRIDE
+   Dit blok moet HELEMAAL ONDERAAN globals.css staan.
+   ========================================================= */
+
+@media (max-width: 760px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+    background: #f6f2ed !important;
+  }
+
+  .app-mobile-dashboard-v3 {
+    padding: 102px 10px 96px !important;
+    background: #f6f2ed !important;
+    min-height: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  /* HEADER VAST BOVENIN */
+  .mobile-app-header,
+  header.mobile-app-header {
+    position: fixed !important;
+    top: max(12px, env(safe-area-inset-top)) !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 80 !important;
+
+    height: 68px !important;
+    min-height: 68px !important;
+    padding: 8px 12px !important;
+
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr) 48px !important;
+    align-items: center !important;
+    gap: 8px !important;
+
+    border-radius: 24px !important;
+    background: rgba(255, 250, 246, 0.98) !important;
+    border: 1px solid #eadfd4 !important;
+    box-shadow: 0 12px 24px rgba(72, 52, 38, 0.08) !important;
+    backdrop-filter: blur(14px) !important;
+  }
+
+  .mobile-menu-button {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    border-radius: 16px !important;
+    padding: 0 !important;
+    flex: 0 0 48px !important;
+  }
+
+  .mobile-header-logo {
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .mobile-header-logo img {
+    height: 44px !important;
+    max-width: 205px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+
+  .mobile-header-ai-button {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+
+    border-radius: 16px !important;
+    border: none !important;
+    background: #ef6b1f !important;
+    color: #ffffff !important;
+
+    font-size: 22px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+    flex: 0 0 48px !important;
+    box-shadow: 0 8px 18px rgba(239, 107, 31, 0.22) !important;
+    cursor: pointer !important;
+    appearance: none !important;
+  }
+
+  .mobile-user-mini {
+    display: none !important;
+  }
+
+  /* MENU BOVEN HEADER */
+  .mobile-menu-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9998 !important;
+  }
+
+  .mobile-app-menu,
+  .mobile-menu,
+  .mobile-menu-panel {
+    position: fixed !important;
+    z-index: 9999 !important;
+  }
+
+  /* PLANNING: 2 DAGEN PASSEN PRECIES */
+  .app-mobile-dashboard-v3__card:first-of-type {
+    margin-top: 0 !important;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+  }
+
+  .app-mobile-dashboard-v3__days-scroll {
+    grid-auto-columns: calc((100vw - 86px) / 2) !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    padding: 0 0 2px !important;
+  }
+
+  .app-mobile-dashboard-v3__day {
+    min-height: 126px !important;
+    height: 126px !important;
+    padding: 10px !important;
+    border-radius: 18px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong {
+    font-size: 15px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span {
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+    margin-top: 3px !important;
+    font-weight: 800 !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head button {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    max-width: 34px !important;
+    max-height: 34px !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill,
+  .app-mobile-dashboard-v3__empty {
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 10px !important;
+    border-radius: 13px !important;
+    font-size: 12px !important;
+    line-height: 34px !important;
+    font-weight: 850 !important;
+    text-align: left !important;
+  }
+
+  /* 6 KNOPPEN */
+  .app-mobile-dashboard-v3__quick-grid {
+    margin-top: 0 !important;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    gap: 9px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile {
+    min-height: 104px !important;
+    height: 104px !important;
+    border-radius: 20px !important;
+    padding: 11px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 13px !important;
+    font-size: 18px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong {
+    font-size: 14px !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.2px !important;
+    white-space: nowrap !important;
+  }
+
+  /* SAMENVATTING: NETTER */
+  .app-mobile-dashboard-v3__summary-card {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding: 10px !important;
+    margin-bottom: 12px !important;
+    border-radius: 22px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row {
+    min-height: 78px !important;
+    padding: 9px 8px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row span {
+    font-size: 10px !important;
+    line-height: 1.05 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row strong {
+    font-size: 28px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row em {
+    display: none !important;
+  }
+
+  /* SLIMME KAART + PROJECTEN */
+  .app-mobile-dashboard-v3__smart-card,
+  .app-mobile-dashboard-v3__projects {
+    margin-top: 0 !important;
+    margin-bottom: 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong {
+    font-size: 17px !important;
+    line-height: 1.1 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span,
+  .app-mobile-dashboard-v3__project-row em {
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* POPUPS HOGER EN COMPACTER */
+  .app-mobile-dashboard-v3__modal,
+  .app-mobile-dashboard-v3__sheet {
+    max-height: calc(100dvh - 130px) !important;
+    margin-bottom: 96px !important;
+    padding: 18px !important;
+    border-radius: 24px 24px 0 0 !important;
+    overflow-y: auto !important;
+  }
+
+  .app-mobile-dashboard-v3__modal h2,
+  .app-mobile-dashboard-v3__sheet h2 {
+    font-size: 28px !important;
+    line-height: 1.05 !important;
+  }
+
+  /* BOTTOM NAV SCHAAL HERSTELLEN */
+  .mobile-bottom-nav {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    padding: 7px !important;
+    border-radius: 24px !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+  }
+
+  .mobile-bottom-nav__item {
+    min-width: 0 !important;
+    min-height: 60px !important;
+    gap: 3px !important;
+  }
+
+  .mobile-bottom-nav__icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 13px !important;
+    font-size: 14px !important;
+  }
+
+  .mobile-bottom-nav__label {
+    font-size: 11px !important;
+    line-height: 1 !important;
     white-space: nowrap !important;
   }
 }
