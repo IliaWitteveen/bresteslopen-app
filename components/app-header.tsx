@@ -137,33 +137,31 @@ export default function AppHeader() {
       </header>
 
       {/* MOBILE HEADER */}
-      <header className="mobile-app-header">
-        <button
-          type="button"
-          className="mobile-menu-button"
-          onClick={() => setMenuOpen(true)}
-          aria-label="Menu openen"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+<header className="mobile-app-header">
+  <button
+    type="button"
+    className="mobile-menu-button"
+    onClick={() => setMenuOpen(true)}
+    aria-label="Menu openen"
+  >
+    <span />
+    <span />
+    <span />
+  </button>
 
-        <Link href="/" className="mobile-header-logo" aria-label="Naar dashboard">
-          <img src="/LOGO-bresteslopen-kleur.svg" alt="BreSteSlopen" />
-        </Link>
+  <Link href="/" className="mobile-header-logo" aria-label="Naar dashboard">
+    <img src="/LOGO-bresteslopen-kleur.svg" alt="BreSteSlopen" />
+  </Link>
 
-        <button
-  type="button"
-  className="mobile-header-ai-button"
-  onClick={() => {
-    window.dispatchEvent(new CustomEvent("open-mobile-ai"));
-  }}
-  aria-label="AI openen"
->
-  ✦
-</button>
-      </header>
+  <button
+    type="button"
+    className="mobile-header-ai-button"
+    aria-label="AI openen"
+    onClick={() => window.dispatchEvent(new CustomEvent("breste:open-ai"))}
+  >
+    ✦
+  </button>
+</header>
 
       {menuOpen ? (
         <div className="mobile-menu-backdrop" onClick={() => setMenuOpen(false)}>
