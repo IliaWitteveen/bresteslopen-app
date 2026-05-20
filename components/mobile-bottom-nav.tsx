@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -68,6 +68,16 @@ export default function MobileBottomNav() {
   const [answer, setAnswer] = useState("Waar wil je naartoe of wat wil je vinden?");
   const [results, setResults] = useState<SearchResult[]>(staticResults.slice(0, 4));
   const [searching, setSearching] = useState(false);
+
+
+  useEffect(() => {
+    function handleOpenAi() {
+      setAiOpen(true);
+    }
+
+    window.addEventListener("breste:open-ai", handleOpenAi);
+    return () => window.removeEventListener("breste:open-ai", handleOpenAi);
+  }, []);
 
   const filteredStaticResults = useMemo(() => {
     const q = query.trim().toLowerCase();
