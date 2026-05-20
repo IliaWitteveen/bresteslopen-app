@@ -70,7 +70,6 @@ export default function AppHeader() {
 
   return (
     <>
-      {/* DESKTOP HEADER - blijft bewust hetzelfde */}
       <header
         className="desktop-app-header"
         style={{
@@ -140,8 +139,7 @@ export default function AppHeader() {
         </div>
       </header>
 
-      {/* MOBILE HEADER */}
-      <header className="mobile-app-header">
+      <header className="mobile-app-header" aria-label="Mobiele navigatie">
         <button
           type="button"
           className="mobile-menu-button"
@@ -232,7 +230,134 @@ export default function AppHeader() {
         </div>
       ) : null}
 
+      <style jsx global>{`
+        .mobile-app-header {
+          display: none;
+        }
 
+        @media (max-width: 760px) {
+          .desktop-app-header {
+            display: none !important;
+          }
+
+          .mobile-app-header {
+            position: fixed !important;
+            top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+            left: 10px !important;
+            right: 10px !important;
+            z-index: 700 !important;
+            width: calc(100vw - 20px) !important;
+            height: 68px !important;
+            min-height: 68px !important;
+            max-height: 68px !important;
+            margin: 0 !important;
+            padding: 8px 10px !important;
+            box-sizing: border-box !important;
+            display: grid !important;
+            grid-template-columns: 50px minmax(0, 1fr) 50px !important;
+            align-items: center !important;
+            gap: 8px !important;
+            border-radius: 24px !important;
+            border: 1px solid #eadfd4 !important;
+            background: rgba(255, 250, 246, 0.97) !important;
+            box-shadow: 0 12px 28px rgba(72, 52, 38, 0.1) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            overflow: hidden !important;
+            transform: none !important;
+          }
+
+          .mobile-menu-button,
+          .mobile-header-ai-button {
+            width: 48px !important;
+            height: 48px !important;
+            min-width: 48px !important;
+            min-height: 48px !important;
+            max-width: 48px !important;
+            max-height: 48px !important;
+            border-radius: 16px !important;
+            box-sizing: border-box !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            cursor: pointer !important;
+            flex: 0 0 48px !important;
+          }
+
+          .mobile-menu-button {
+            border: 1px solid #ded3c8 !important;
+            background: #ffffff !important;
+            box-shadow: 0 8px 18px rgba(72, 52, 38, 0.08) !important;
+            flex-direction: column !important;
+            gap: 5px !important;
+          }
+
+          .mobile-menu-button span {
+            width: 20px !important;
+            height: 2.5px !important;
+            border-radius: 999px !important;
+            background: #171717 !important;
+            display: block !important;
+          }
+
+          .mobile-header-logo {
+            min-width: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 52px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: hidden !important;
+            text-decoration: none !important;
+          }
+
+          .mobile-header-logo img {
+            height: 43px !important;
+            width: auto !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
+            display: block !important;
+          }
+
+          .mobile-header-ai-button {
+            border: none !important;
+            background: #ef6b1f !important;
+            color: #ffffff !important;
+            font-size: 22px !important;
+            line-height: 1 !important;
+            font-weight: 950 !important;
+            box-shadow: 0 8px 18px rgba(239, 107, 31, 0.24) !important;
+          }
+
+          .mobile-menu-backdrop {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 1200 !important;
+            background: rgba(23, 23, 23, 0.32) !important;
+            display: flex !important;
+            align-items: stretch !important;
+            justify-content: flex-start !important;
+          }
+
+          .mobile-menu-panel {
+            position: relative !important;
+            z-index: 1201 !important;
+            width: min(86vw, 340px) !important;
+            min-height: 100dvh !important;
+            background: #fffaf6 !important;
+            border-right: 1px solid #e4d7ca !important;
+            box-shadow: 18px 0 40px rgba(0, 0, 0, 0.14) !important;
+            padding: 18px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 18px !important;
+            overflow-y: auto !important;
+          }
+        }
+      `}</style>
     </>
   );
 }
