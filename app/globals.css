@@ -6234,7 +6234,7 @@ a {
 }
 
 /* =========================================================
-   FINAL MOBILE HOME TUNING â€” 18 mei
+   FINAL MOBILE HOME TUNING Ã¢â‚¬â€ 18 mei
    Alleen mobiele homepage/header/bottomnav.
    Dit blok moet HELEMAAL ONDERAAN globals.css staan.
 ========================================================= */
@@ -6676,7 +6676,7 @@ a {
 }
 
 /* =========================================================
-   FINAL MOBILE HOME FIX â€” 18 MAY
+   FINAL MOBILE HOME FIX Ã¢â‚¬â€ 18 MAY
    Alleen mobiele app/home/header/nav. Desktop blijft ongemoeid.
    ========================================================= */
 
@@ -7051,7 +7051,7 @@ a {
     font-size: 12px !important;
   }
 
-  /* BOTTOM NAV â€” schaal terug goed, AI blijft onderin */
+  /* BOTTOM NAV Ã¢â‚¬â€ schaal terug goed, AI blijft onderin */
   .mobile-bottom-nav {
     left: 10px !important;
     right: 10px !important;
@@ -7981,7 +7981,7 @@ a {
 
 /* ============================================================
    BRESTE FINAL MOBILE DASHBOARD REPAIR - 2026-05-20
-   Doel: Ã©Ã©n laatste, sterke override die oude dubbele CSS wint.
+   Doel: ÃƒÂ©ÃƒÂ©n laatste, sterke override die oude dubbele CSS wint.
    Desktop blijft behouden; mobiele homepage/header/bottomnav strak.
 ============================================================ */
 
@@ -9057,5 +9057,641 @@ a {
     font-size: 10px !important;
     font-style: normal !important;
     font-weight: 950 !important;
+  }
+}
+/* ==========================================================
+   BRESTE MOBILE DASHBOARD - DEFINITIEVE CLEAN OVERRIDE
+   Dit blok staat bewust HELEMAAL onderaan globals.css.
+   Het overschrijft oudere testblokken zonder desktop te raken.
+========================================================== */
+@media (max-width: 760px) {
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    background: #f6f2ed !important;
+  }
+
+  .desktop-app-header {
+    display: none !important;
+  }
+
+  /* Pagina begint lager zodat de eerste planner nooit achter de vaste header valt. */
+  .app-mobile-dashboard-v3,
+  .app-dashboard-v3,
+  .mobile-dashboard-page {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    background: #f6f2ed !important;
+  }
+
+  .app-mobile-dashboard-v3 {
+    padding: calc(env(safe-area-inset-top, 0px) + 106px) 10px calc(env(safe-area-inset-bottom, 0px) + 92px) !important;
+    display: grid !important;
+    gap: 14px !important;
+    min-height: auto !important;
+  }
+
+  /* Header: vast, volledig in beeld, menu links en AI rechts symmetrisch. */
+  .mobile-app-header,
+  header.mobile-app-header {
+    display: grid !important;
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+    height: 70px !important;
+    min-height: 70px !important;
+    margin: 0 !important;
+    padding: 9px 12px !important;
+    grid-template-columns: 48px minmax(0, 1fr) 48px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    transform: none !important;
+    z-index: 700 !important;
+    border-radius: 24px !important;
+    border: 1px solid #eadfd4 !important;
+    background: rgba(255, 250, 246, 0.97) !important;
+    box-shadow: 0 12px 26px rgba(72, 52, 38, 0.1) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  .mobile-menu-button,
+  .mobile-header-ai-button {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    flex: 0 0 48px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    appearance: none !important;
+    cursor: pointer !important;
+  }
+
+  .mobile-menu-button {
+    border: 1px solid #ded3c8 !important;
+    background: #ffffff !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    box-shadow: 0 8px 18px rgba(72, 52, 38, 0.08) !important;
+  }
+
+  .mobile-menu-button span {
+    width: 21px !important;
+    height: 3px !important;
+    border-radius: 999px !important;
+    background: #171717 !important;
+    display: block !important;
+  }
+
+  .mobile-header-ai-button {
+    border: 1px solid #ef6b1f !important;
+    background: #ef6b1f !important;
+    color: #ffffff !important;
+    font-size: 22px !important;
+    line-height: 1 !important;
+    font-weight: 950 !important;
+    box-shadow: 0 10px 20px rgba(239, 107, 31, 0.24) !important;
+  }
+
+  .mobile-header-logo {
+    min-width: 0 !important;
+    height: 52px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
+  }
+
+  .mobile-header-logo img {
+    height: 43px !important;
+    width: auto !important;
+    max-width: 196px !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .mobile-user-mini {
+    display: none !important;
+  }
+
+  /* Menu altijd boven de vaste header. */
+  .mobile-menu-backdrop,
+  .mobile-app-menu-backdrop,
+  .mobile-menu {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99998 !important;
+  }
+
+  .mobile-menu-backdrop {
+    background: rgba(23, 23, 23, 0.34) !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+
+  .mobile-menu-panel,
+  .mobile-app-menu,
+  .mobile-menu-panel {
+    position: relative !important;
+    z-index: 99999 !important;
+  }
+
+  /* Algemene cards: gelijke professionele tussenruimte. */
+  .app-mobile-dashboard-v3__card,
+  .app-mobile-dashboard-v3__quick-grid,
+  .app-mobile-dashboard-v3__summary-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 24px !important;
+    border: 1px solid #e2d2c2 !important;
+    background: rgba(255, 250, 246, 0.86) !important;
+    box-shadow: 0 12px 28px rgba(72, 52, 38, 0.055) !important;
+  }
+
+  .app-mobile-dashboard-v3__card {
+    padding: 12px !important;
+  }
+
+  /* Planning: exact twee dagen zichtbaar. */
+  .app-mobile-dashboard-v3__card:first-of-type {
+    padding: 12px !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__days-scroll {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: calc((100% - 8px) / 2) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .app-mobile-dashboard-v3__days-scroll::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .app-mobile-dashboard-v3__day {
+    scroll-snap-align: start !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 142px !important;
+    min-height: 142px !important;
+    padding: 12px !important;
+    border-radius: 20px !important;
+    border: 1px solid #eadfd4 !important;
+    background: #fffaf6 !important;
+    overflow: hidden !important;
+  }
+
+  .app-mobile-dashboard-v3__day--today {
+    border: 2px solid #ef6b1f !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 30px !important;
+    align-items: start !important;
+    gap: 7px !important;
+    margin: 0 0 16px !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head strong {
+    display: block !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    color: #171717 !important;
+    font-size: 16px !important;
+    line-height: 1.03 !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.03em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head span {
+    display: block !important;
+    margin-top: 4px !important;
+    color: #6f675f !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+    white-space: nowrap !important;
+  }
+
+  .app-mobile-dashboard-v3__day-head button {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    max-width: 30px !important;
+    max-height: 30px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-self: start !important;
+    justify-self: end !important;
+    border-radius: 999px !important;
+    border: 1.5px solid #93dfaa !important;
+    background: #eaffef !important;
+    color: #0e8d45 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+    font-weight: 950 !important;
+    appearance: none !important;
+  }
+
+  .app-mobile-dashboard-v3__day-items {
+    display: grid !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill,
+  .app-mobile-dashboard-v3__empty {
+    width: 100% !important;
+    min-height: 30px !important;
+    height: 30px !important;
+    border-radius: 14px !important;
+    padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app-mobile-dashboard-v3__planning-pill {
+    color: #ffffff !important;
+    text-decoration: none !important;
+  }
+
+  .app-mobile-dashboard-v3__empty {
+    background: #f0ebe6 !important;
+    color: #7a7168 !important;
+    justify-content: center !important;
+  }
+
+  /* Zes hoofdtegels: compacter, tekst past. */
+  .app-mobile-dashboard-v3__quick-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    padding: 12px !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile {
+    min-width: 0 !important;
+    height: 102px !important;
+    min-height: 102px !important;
+    border-radius: 22px !important;
+    padding: 10px 8px !important;
+    display: grid !important;
+    justify-items: center !important;
+    align-content: center !important;
+    gap: 10px !important;
+    text-align: center !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile span {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+  }
+
+  .app-mobile-dashboard-v3__quick-tile strong {
+    display: block !important;
+    width: 100% !important;
+    color: #ffffff !important;
+    font-size: 13.4px !important;
+    line-height: 1.02 !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.045em !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  /* Samenvatting: strakker, cijfers onderaan en rustiger. */
+  .app-mobile-dashboard-v3__summary-card {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding: 10px !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row {
+    min-width: 0 !important;
+    height: 80px !important;
+    min-height: 80px !important;
+    padding: 9px 8px 8px !important;
+    border-radius: 17px !important;
+    border: 1px solid #eadfd4 !important;
+    background: linear-gradient(180deg, #fffdfa 0%, #fff9f3 100%) !important;
+    display: block !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7) !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row div {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-rows: auto 1fr !important;
+    align-items: end !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row span {
+    align-self: start !important;
+    display: block !important;
+    color: #6f675f !important;
+    font-size: 10.2px !important;
+    line-height: 1.08 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row strong {
+    align-self: end !important;
+    display: block !important;
+    color: #ef6b1f !important;
+    font-size: 27px !important;
+    line-height: 0.9 !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.05em !important;
+  }
+
+  .app-mobile-dashboard-v3__summary-row em {
+    display: none !important;
+  }
+
+  /* Slimme sectie en projecten compact. */
+  .app-mobile-dashboard-v3__smart-list {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row {
+    width: 100% !important;
+    min-height: 58px !important;
+    padding: 9px 12px !important;
+    border-radius: 17px !important;
+    border: 1px solid #eadfd4 !important;
+    background: #fff !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 40px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    text-align: left !important;
+    cursor: pointer !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row strong {
+    display: block !important;
+    font-size: 15px !important;
+    line-height: 1.05 !important;
+    font-weight: 950 !important;
+    color: #171717 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row span {
+    display: block !important;
+    margin-top: 3px !important;
+    color: #6f675f !important;
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+  }
+
+  .app-mobile-dashboard-v3__smart-row b {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 14px !important;
+    background: #fff1e8 !important;
+    color: #ef6b1f !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 22px !important;
+    line-height: 1 !important;
+    font-weight: 950 !important;
+  }
+
+  .app-mobile-dashboard-v3__recent-card {
+    padding: 12px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-scroll {
+    display: grid !important;
+    gap: 8px !important;
+    max-height: 330px !important;
+    overflow-y: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row {
+    min-height: 60px !important;
+    border-radius: 17px !important;
+    border: 1px solid #eadfd4 !important;
+    background: #fff !important;
+    padding: 10px 12px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 10px !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    color: #171717 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row strong {
+    display: block !important;
+    color: #171717 !important;
+    font-size: 15.5px !important;
+    line-height: 1.05 !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row span {
+    display: block !important;
+    margin-top: 4px !important;
+    color: #6f675f !important;
+    font-size: 11.5px !important;
+    line-height: 1.05 !important;
+    font-weight: 800 !important;
+  }
+
+  .app-mobile-dashboard-v3__project-row em {
+    max-width: 102px !important;
+    color: #6f675f !important;
+    font-size: 10.2px !important;
+    line-height: 1.1 !important;
+    font-style: normal !important;
+    font-weight: 850 !important;
+    text-align: right !important;
+  }
+
+  /* Pop-ups hoger, rustiger en met kleinere headertekst. */
+  .app-mobile-dashboard-v3__sheet-backdrop,
+  .mobile-ai-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99990 !important;
+    background: rgba(23, 23, 23, 0.32) !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    padding: 0 12px calc(env(safe-area-inset-bottom, 0px) + 86px) !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet,
+  .mobile-ai-sheet {
+    width: 100% !important;
+    max-width: 520px !important;
+    max-height: 70dvh !important;
+    overflow-y: auto !important;
+    border-radius: 26px !important;
+    border: 1px solid #eadfd4 !important;
+    background: #fffaf6 !important;
+    box-shadow: 0 -18px 44px rgba(0, 0, 0, 0.14) !important;
+    padding: 18px !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet h2,
+  .mobile-ai-sheet h2 {
+    margin: 0 !important;
+    color: #171717 !important;
+    font-size: 23px !important;
+    line-height: 1.02 !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  .app-mobile-dashboard-v3__sheet p {
+    margin: 6px 0 14px !important;
+    color: #6f675f !important;
+    font-size: 12px !important;
+    font-weight: 850 !important;
+  }
+
+  /* Bottom nav: schaal herstellen, AI blijft rechtsonder staan. */
+  .mobile-bottom-nav {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 10px) !important;
+    z-index: 650 !important;
+    width: auto !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 24px !important;
+    border: 1px solid #eadfd4 !important;
+    background: rgba(255, 250, 246, 0.97) !important;
+    box-shadow: 0 12px 28px rgba(72, 52, 38, 0.12) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+
+  .mobile-bottom-nav__item {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    border-radius: 18px !important;
+    padding: 5px 2px !important;
+    border: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    color: #6f675f !important;
+    display: grid !important;
+    justify-items: center !important;
+    align-content: center !important;
+    gap: 4px !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+    cursor: pointer !important;
+  }
+
+  .mobile-bottom-nav__item--active {
+    background: #fff3ea !important;
+    color: #ef6b1f !important;
+    border: 1px solid rgba(239, 107, 31, 0.22) !important;
+  }
+
+  .mobile-bottom-nav__icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 12px !important;
+    background: #f1ebe5 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+  }
+
+  .mobile-bottom-nav__item--active .mobile-bottom-nav__icon {
+    background: #ef6b1f !important;
+    color: #fff !important;
+  }
+
+  .mobile-bottom-nav__label {
+    display: block !important;
+    color: currentColor !important;
+    font-size: 10.5px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    font-weight: 900 !important;
   }
 }
